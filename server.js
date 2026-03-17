@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 // ⚠️ ЗАМЕНИТЕ НА ID ВАШЕЙ GOOGLE ТАБЛИЦЫ
 // Как найти: https://docs.google.com/spreadsheets/d/XXXXXX/edit -> XXXXXX это ID
-const SHEET_ID = 'ЗДЕСЬ_ID_ВАШЕЙ_ТАБЛИЦЫ';
+const SHEET_ID = '1o3sjAJIom-ZhjA2lCmoUtO9iEk7SOBFrmCw9jJ4yJq8';
 
 // Авторизация для Google Sheets
 let auth;
