@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // ⚠️ ЗАМЕНИТЕ НА ID ВАШЕЙ ТАБЛИЦЫ
-const SHEET_ID = '1vJuTqSqud9QvN4tPMtPBB46K2R08bbMhJ4YbCYg54R4';
+const SHEET_ID = '1o3sjAJIom-ZhjA2lCmoUtO9iEk7SOBFrmCw9jJ4yJq8';
 
 // Авторизация для Google Sheets
 let auth;
