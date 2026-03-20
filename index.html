@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Лига Киберразведчиков | Детский лагерь</title>
+    <title>Лига Киберразведчиков | Подбор программы</title>
     
     <!-- VK Bridge -->
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
@@ -33,7 +33,7 @@
         
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             background: rgba(255, 255, 255, 0.98);
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -49,7 +49,7 @@
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px 30px 25px 30px;
+            padding: 25px 25px 20px 25px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -72,70 +72,50 @@
         }
         
         .logo-circle {
-            width: 100px;
-            height: 100px;
+            width: 70px;
+            height: 70px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 12px auto;
             position: relative;
             z-index: 2;
             border: 3px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(5px);
         }
         
         .logo-circle i {
-            font-size: 48px;
+            font-size: 32px;
             color: white;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .header h1 {
-            font-size: 1.8em;
-            margin-bottom: 5px;
+            font-size: 1.5em;
+            margin-bottom: 4px;
             font-weight: 700;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
         .header .subtitle {
-            font-size: 1.2em;
+            font-size: 0.9em;
             opacity: 0.95;
             font-weight: 400;
-            margin-top: 5px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        .age-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 8px 20px;
-            border-radius: 50px;
-            margin-top: 10px;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-        }
-        
-        .age-badge i {
-            margin-right: 8px;
         }
         
         .server-status {
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 12px;
+            right: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.8em;
+            font-size: 0.7em;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             z-index: 10;
         }
         
@@ -158,504 +138,369 @@
             100% { opacity: 1; transform: scale(1); }
         }
         
+        .content {
+            padding: 25px;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        /* Вопросы */
+        .question-card {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .question-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .question-title i {
+            color: #667eea;
+            margin-right: 10px;
+        }
+        
+        /* Возрастной селектор */
+        .age-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .age-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e0e0e0;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .age-btn:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .age-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+        
+        /* Группа пола */
+        .gender-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .gender-option {
+            flex: 1;
+            max-width: 150px;
+        }
+        
+        .gender-option input {
+            display: none;
+        }
+        
+        .gender-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 18px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .gender-option input:checked + label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+        
+        .gender-option input:checked + label i {
+            color: white;
+        }
+        
+        .gender-option label i {
+            font-size: 2.2em;
+            color: #667eea;
+        }
+        
+        .gender-option label span {
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+        
+        /* Варианты ответов */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .option-btn {
+            padding: 14px 18px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .option-btn:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .option-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+        
+        .option-btn.selected i {
+            color: white;
+        }
+        
+        .option-btn i {
+            font-size: 1.1em;
+            color: #667eea;
+            width: 24px;
+        }
+        
+        /* Навигация */
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-btn.prev:hover {
+            background: #e0e0e0;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Результат */
+        .result-card {
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .result-score .points {
+            font-size: 2.5em;
+            font-weight: 800;
+        }
+        
+        .result-score .max {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .result-icon {
+            font-size: 3.5em;
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
+        
+        .result-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .result-role {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: #f0f0ff;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 50px;
+        }
+        
+        .result-text {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+        
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .result-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .result-btn.telegram {
+            background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+            color: white;
+        }
+        
+        .result-btn.vk {
+            background: linear-gradient(135deg, #4a76a8 0%, #42648d 100%);
+            color: white;
+        }
+        
+        .result-btn.reset {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .result-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Сообщения */
         .message-block {
             background: white;
             border-radius: 20px;
-            padding: 20px;
-            margin: 15px 30px;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
-            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            margin: 0 25px 15px 25px;
             display: none;
-            animation: fadeIn 0.3s ease;
+            border-left: 4px solid #ff9800;
+            font-size: 0.9em;
         }
         
         .message-block.show {
             display: block;
         }
         
-        .message-block.success {
-            background: #e8f5e9;
-            border-left: 4px solid #4caf50;
-        }
-        
-        .message-block.warning {
-            background: #fff3e0;
-            border-left: 4px solid #ff9800;
-        }
-        
-        .message-block.error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .message-icon {
-            font-size: 24px;
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
-        }
-        
-        .message-text {
-            flex: 1;
-            font-size: 1em;
-            line-height: 1.4;
-            color: #333;
-        }
-        
-        .message-text strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-            color: #667eea;
-        }
-        
-        .thanks-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 15px 30px 30px 30px;
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-            display: none;
-            animation: slideUp 0.5s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .thanks-card.show {
-            display: block;
-        }
-
-        .thanks-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-        }
-
-        .thanks-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .thanks-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .thanks-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .thanks-title {
-            color: white;
-            font-size: 1.4em;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .thanks-text {
-            color: rgba(255, 255, 255, 0.95);
-            line-height: 1.5;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .thanks-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            width: 100%;
-            backdrop-filter: blur(5px);
-        }
-
-        .thanks-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .thanks-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .thanks-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: #333;
-            font-weight: 500;
-            font-size: 1.1em;
-        }
-        
-        .form-group label i {
-            margin-right: 10px;
-            color: #667eea;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
-        }
-        
-        .gender-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        
-        .gender-option {
-            flex: 1;
-            position: relative;
-        }
-        
-        .gender-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .gender-option label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 0;
-            color: #666;
-        }
-        
-        .gender-option input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: transparent;
-            color: white;
-        }
-        
-        .gender-option input[type="radio"]:checked + label i {
-            color: white;
-        }
-        
-        .gender-option label i {
-            font-size: 1.2em;
-            color: #667eea;
-            transition: color 0.3s ease;
-        }
-        
-        .age-input {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .age-input input {
-            flex: 1;
-        }
-        
-        .age-input span {
-            color: #666;
-            font-size: 1.1em;
-        }
-        
-        .btn-submit {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25);
-            margin-top: 20px;
-        }
-        
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.35);
-        }
-        
-        .contact-info {
-            margin-top: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .contact-info p {
-            color: #333;
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-        
-        .contact-info p i {
-            color: #667eea;
-            margin-right: 8px;
-        }
-        
-        .contact-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .contact-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 12px;
-            border-radius: 50px;
-            font-size: 1em;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: white;
-            border: none;
-        }
-        
-        .contact-btn.phone {
-            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-        }
-        
-        .contact-btn.telegram {
-            background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
-        }
-        
-        .contact-btn.vk {
-            background: linear-gradient(135deg, #4a76a8 0%, #42648d 100%);
-        }
-        
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-        
+        /* Footer */
         .footer {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: #f8f9fa;
             color: #666;
-            font-size: 0.9em;
+            font-size: 0.75em;
             border-top: 1px solid #e0e0e0;
-        }
-        
-        .footer p {
-            color: #667eea;
-            font-weight: 500;
-        }
-        
-        .confirm-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        
-        .confirm-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .confirm-content {
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
-        }
-        
-        .confirm-modal.show .confirm-content {
-            transform: translateY(0);
-        }
-        
-        .confirm-icon {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .confirm-icon i {
-            font-size: 4em;
-            color: #667eea;
-            animation: pulse 2s infinite;
-        }
-        
-        .confirm-title {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .confirm-text {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-        
-        .confirm-text strong {
-            color: #667eea;
-        }
-        
-        .confirm-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .confirm-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.1em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .confirm-btn.yes {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .confirm-btn.yes:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25);
-        }
-        
-        .confirm-btn.no {
-            background: #f8f9fa;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        
-        .confirm-btn.no:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
         }
         
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
@@ -667,13 +512,13 @@
         
         @media (max-width: 480px) {
             .container { border-radius: 20px; }
-            .header { padding: 25px 20px 20px 20px; }
             .content { padding: 20px; }
-            .logo-circle { width: 80px; height: 80px; }
-            .logo-circle i { font-size: 38px; }
-            .gender-group { flex-direction: column; }
-            .contact-buttons { flex-direction: column; }
-            .confirm-buttons { flex-direction: column; }
+            .question-title { font-size: 1.1em; }
+            .age-btn { width: 45px; height: 45px; font-size: 0.9em; }
+            .gender-option label { padding: 12px; }
+            .option-btn { padding: 12px 15px; font-size: 0.85em; }
+            .result-score { width: 100px; height: 100px; }
+            .result-score .points { font-size: 2em; }
         }
     </style>
 </head>
@@ -682,302 +527,406 @@
         <div class="header">
             <div class="server-status" id="serverStatus">
                 <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">Проверка сервера...</span>
+                <span id="statusText">Готово</span>
             </div>
             
             <div class="logo-circle">
                 <i class="fas fa-shield-halved"></i>
             </div>
             
-            <h1>Детский лагерь</h1>
-            <div class="subtitle">«Лига Киберразведчиков»</div>
-            
-            <div class="age-badge">
-                <i class="fas fa-calendar-alt"></i>
-                6–16 лет
-            </div>
+            <h1>Лига Киберразведчиков</h1>
+            <div class="subtitle">Найди своё призвание</div>
         </div>
         
         <div id="messageBlock" class="message-block">
             <div class="message-content">
-                <div class="message-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="message-text">
-                    <strong id="messageTitle">Внимание</strong>
-                    <span id="messageText">Текст сообщения</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="thanksCard" class="thanks-card">
-            <button class="thanks-close" onclick="hideThanksCard()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="thanks-content">
-                <div class="thanks-header">
-                    <div class="thanks-icon">
-                        <i class="fas fa-shield-halved"></i>
-                    </div>
-                    <div>
-                        <div class="thanks-title">Спасибо за запись!</div>
-                    </div>
-                </div>
-                <div class="thanks-text">
-                    Мы свяжемся с вами в ближайшее время для подтверждения бронирования.
-                </div>
-                <a href="https://t.me/ligacyberrazved" target="_blank" class="thanks-button">
-                    <i class="fab fa-telegram-plane"></i>
-                    Подписаться на новости
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <i class="fas fa-exclamation-triangle" style="color: #ff9800; margin-right: 10px;"></i>
+                <span id="messageText">Текст сообщения</span>
             </div>
         </div>
         
-        <div class="content">
-            <div class="form-group">
-                <label><i class="fas fa-child"></i> Имя и фамилия ребёнка</label>
-                <input type="text" id="childName" class="form-control" placeholder="Например: Иван Петров">
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-calendar-alt"></i> Возраст ребёнка</label>
-                <div class="age-input">
-                    <input type="number" id="childAge" class="form-control" min="6" max="16" placeholder="От 6 до 16 лет">
-                    <span>лет</span>
+        <div class="content" id="app">
+            <!-- Progress bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
+                <div class="progress-text" id="progressText">Вопрос 1 из 6</div>
             </div>
             
-            <div class="form-group">
-                <label><i class="fas fa-venus-mars"></i> Пол ребёнка</label>
-                <div class="gender-group">
-                    <div class="gender-option">
-                        <input type="radio" name="gender" id="genderMale" value="Мужской">
-                        <label for="genderMale"><i class="fas fa-mars"></i> Мальчик</label>
-                    </div>
-                    <div class="gender-option">
-                        <input type="radio" name="gender" id="genderFemale" value="Женский">
-                        <label for="genderFemale"><i class="fas fa-venus"></i> Девочка</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-phone-alt"></i> Как с вами лучше связаться?</label>
-                <input type="text" id="contactMethod" class="form-control" placeholder="Например: Telegram @username, WhatsApp">
-            </div>
-            
-            <button class="btn-submit" onclick="checkBeforeSubmit()">
-                <i class="fas fa-paper-plane"></i>
-                Отправить заявку
-            </button>
-            
-            <div class="contact-info">
-                <p><i class="fas fa-question-circle"></i> По вопросам писать / звонить:</p>
-                <div class="contact-buttons">
-                    <a href="tel:+79966288074" class="contact-btn phone">
-                        <i class="fas fa-phone-alt"></i> +7 (996) 628-80-74
-                    </a>
-                    <a href="https://t.me/ligacyberrazved" target="_blank" class="contact-btn telegram">
-                        <i class="fab fa-telegram-plane"></i> Telegram
-                    </a>
-                    <a href="https://vk.com/razvedliga" target="_blank" class="contact-btn vk">
-                        <i class="fab fa-vk"></i> VK
-                    </a>
-                </div>
-            </div>
+            <!-- Контент будет динамически загружаться -->
+            <div id="questionContainer"></div>
         </div>
         
         <div class="footer">
-            <p><i class="fas fa-shield-halved"></i> Ваши данные защищены</p>
-        </div>
-    </div>
-
-    <div id="confirmModal" class="confirm-modal" onclick="hideConfirmModal(event)">
-        <div class="confirm-content">
-            <div class="confirm-icon"><i class="fas fa-shield-halved"></i></div>
-            <div class="confirm-title">Подтверждение</div>
-            <div class="confirm-text" id="confirmText">Проверьте правильность введённых данных</div>
-            <div class="confirm-buttons">
-                <button class="confirm-btn yes" onclick="processSendData()"><i class="fas fa-check"></i> Да, всё верно</button>
-                <button class="confirm-btn no" onclick="hideConfirmModal()"><i class="fas fa-times"></i> Проверить</button>
-            </div>
+            <p><i class="fas fa-heart" style="color: #ff6b6b;"></i> Каждый ребёнок уникален — мы найдём его место!</p>
         </div>
     </div>
 
     <script>
         vkBridge.send('VKWebAppInit');
-
-        // ⚠️ ЗДЕСЬ ВСТАВЬТЕ URL ВАШЕГО СЕРВЕРА
-        const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
         
-        function showThanksCard() {
-            document.getElementById('thanksCard').classList.add('show');
-            setTimeout(() => document.getElementById('thanksCard').classList.remove('show'), 15000);
+        // Состояние приложения
+        let currentStep = 0;
+        let answers = {
+            gender: null,
+            age: null,
+            techInterest: null,
+            socialPreference: null,
+            competitiveSpirit: null,
+            physicalReadiness: null
+        };
+        
+        // Баллы за ответы (максимум 80 баллов)
+        const pointsMap = {
+            techInterest: { very: 20, somewhat: 15, little: 8, not: 4 },
+            socialPreference: { team: 20, friends: 15, mixed: 12, alone: 8 },
+            competitiveSpirit: { very: 20, sometimes: 15, rarely: 8, never: 4 },
+            physicalReadiness: { excellent: 20, good: 15, average: 10, low: 5 }
+        };
+        
+        // Вопросы
+        const questions = [
+            {
+                id: 'gender',
+                title: 'Пол ребёнка',
+                type: 'gender',
+                options: [
+                    { value: 'boy', label: 'Мальчик', icon: 'fas fa-mars' },
+                    { value: 'girl', label: 'Девочка', icon: 'fas fa-venus' }
+                ]
+            },
+            {
+                id: 'age',
+                title: 'Возраст ребёнка',
+                type: 'age',
+                min: 6,
+                max: 16
+            },
+            {
+                id: 'techInterest',
+                title: 'Увлекается ли ваш ребёнок новыми технологиями?',
+                type: 'options',
+                options: [
+                    { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 20 },
+                    { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 15 },
+                    { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 8 },
+                    { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 4 }
+                ]
+            },
+            {
+                id: 'socialPreference',
+                title: 'Как ребёнок любит проводить время с друзьями?',
+                type: 'options',
+                options: [
+                    { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 20 },
+                    { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 15 },
+                    { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 12 },
+                    { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 8 }
+                ]
+            },
+            {
+                id: 'competitiveSpirit',
+                title: 'Любит ли ребёнок побеждать и соревноваться?',
+                type: 'options',
+                options: [
+                    { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 20 },
+                    { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 15 },
+                    { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 8 },
+                    { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 4 }
+                ]
+            },
+            {
+                id: 'physicalReadiness',
+                title: 'Как у ребёнка с физической подготовкой?',
+                type: 'options',
+                options: [
+                    { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 20 },
+                    { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 15 },
+                    { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 10 },
+                    { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 5 }
+                ]
+            }
+        ];
+        
+        // Расчёт общего балла (максимум 80 баллов за ответы)
+        function calculateTotalScore() {
+            let total = 0;
+            
+            if (answers.techInterest) total += pointsMap.techInterest[answers.techInterest] || 0;
+            if (answers.socialPreference) total += pointsMap.socialPreference[answers.socialPreference] || 0;
+            if (answers.competitiveSpirit) total += pointsMap.competitiveSpirit[answers.competitiveSpirit] || 0;
+            if (answers.physicalReadiness) total += pointsMap.physicalReadiness[answers.physicalReadiness] || 0;
+            
+            return Math.min(80, total);
         }
-
-        function hideThanksCard() {
-            document.getElementById('thanksCard').classList.remove('show');
+        
+        // Функция обновления progress bar
+        function updateProgress() {
+            const progress = ((currentStep + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `Вопрос ${currentStep + 1} из ${questions.length}`;
         }
-
-        async function wakeUpServer() {
-            try {
-                updateServerStatus('checking', 'Проверка сервера...');
-                const response = await fetch(`${SERVER_URL}/`);
-                if (response.ok) {
-                    updateServerStatus('active', 'Сервер готов');
-                } else {
-                    throw new Error();
+        
+        // Показать сообщение
+        function showMessage(msg) {
+            const block = document.getElementById('messageBlock');
+            const textSpan = document.getElementById('messageText');
+            textSpan.textContent = msg;
+            block.classList.add('show');
+            setTimeout(() => {
+                block.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Проверка, можно ли перейти к следующему вопросу
+        function canProceed() {
+            const currentQuestion = questions[currentStep];
+            const answer = answers[currentQuestion.id];
+            
+            if (currentQuestion.id === 'age') {
+                return answer && answer >= currentQuestion.min && answer <= currentQuestion.max;
+            }
+            return answer !== null && answer !== undefined;
+        }
+        
+        // Отрисовка вопроса
+        function renderQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentStep];
+            
+            let html = `<div class="question-card"><div class="question-title"><i class="${question.id === 'gender' ? 'fas fa-venus-mars' : question.id === 'age' ? 'fas fa-calendar-alt' : 'fas fa-question-circle'}"></i> ${question.title}</div>`;
+            
+            if (question.type === 'gender') {
+                html += `<div class="gender-group">`;
+                question.options.forEach(opt => {
+                    const isChecked = answers.gender === opt.value;
+                    html += `
+                        <div class="gender-option">
+                            <input type="radio" name="gender" id="${opt.value}" value="${opt.value}" ${isChecked ? 'checked' : ''}>
+                            <label for="${opt.value}" onclick="selectGender('${opt.value}')">
+                                <i class="${opt.icon}"></i>
+                                <span>${opt.label}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            else if (question.type === 'age') {
+                html += `<div class="age-selector" id="ageSelector">`;
+                for (let i = question.min; i <= question.max; i++) {
+                    const isSelected = answers.age === i;
+                    html += `<button class="age-btn ${isSelected ? 'selected' : ''}" onclick="selectAge(${i})">${i}</button>`;
                 }
-            } catch {
-                updateServerStatus('checking', 'Сервер просыпается...');
-                setTimeout(async () => {
-                    try {
-                        await fetch(`${SERVER_URL}/`);
-                        updateServerStatus('active', 'Сервер готов');
-                    } catch {
-                        updateServerStatus('checking', 'Сервер загружается...');
-                    }
-                }, 3000);
+                html += `</div>`;
+                if (answers.age && (answers.age < question.min || answers.age > question.max)) {
+                    html += `<div style="color: #f44336; text-align: center; font-size: 0.85em;">Пожалуйста, выберите возраст от ${question.min} до ${question.max} лет</div>`;
+                }
             }
-        }
-
-        function updateServerStatus(status, text) {
-            const dot = document.getElementById('statusDot');
-            const span = document.getElementById('statusText');
-            dot.classList.remove('active', 'error');
-            if (status === 'active') {
-                dot.classList.add('active');
-            }
-            span.textContent = text;
-        }
-
-        function checkBeforeSubmit() {
-            const childName = document.getElementById('childName').value.trim();
-            const childAge = document.getElementById('childAge').value;
-            const gender = document.querySelector('input[name="gender"]:checked');
-            const contactMethod = document.getElementById('contactMethod').value.trim();
             
-            if (!childName || !childAge || !gender || !contactMethod) {
-                showMessage("Заполните все поля!", "warning");
+            else if (question.type === 'options') {
+                html += `<div class="options-list">`;
+                question.options.forEach(opt => {
+                    const isSelected = answers[question.id] === opt.value;
+                    html += `
+                        <button class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectOption('${question.id}', '${opt.value}')">
+                            <i class="${opt.icon}"></i>
+                            <span>${opt.label}</span>
+                        </button>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            // Кнопки навигации
+            html += `<div class="nav-buttons">`;
+            if (currentStep > 0) {
+                html += `<button class="nav-btn prev" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Назад</button>`;
+            } else {
+                html += `<div style="flex: 1;"></div>`;
+            }
+            
+            if (currentStep < questions.length - 1) {
+                html += `<button class="nav-btn next" id="nextBtn" onclick="nextQuestion()" ${!canProceed() ? 'disabled' : ''}>Далее <i class="fas fa-arrow-right"></i></button>`;
+            } else {
+                html += `<button class="nav-btn next" id="nextBtn" onclick="showResult()" ${!canProceed() ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
+            }
+            html += `</div></div>`;
+            
+            container.innerHTML = html;
+            updateProgress();
+        }
+        
+        // Выбор пола
+        function selectGender(value) {
+            answers.gender = value;
+            renderQuestion();
+        }
+        
+        // Выбор возраста
+        function selectAge(value) {
+            if (value >= 6 && value <= 16) {
+                answers.age = value;
+                renderQuestion();
+            } else {
+                showMessage(`Возраст должен быть от 6 до 16 лет`);
+            }
+        }
+        
+        // Выбор опции
+        function selectOption(questionId, value) {
+            answers[questionId] = value;
+            renderQuestion();
+        }
+        
+        // Следующий вопрос
+        function nextQuestion() {
+            if (!canProceed()) {
+                showMessage("Пожалуйста, ответьте на вопрос перед продолжением");
+                return;
+            }
+            if (currentStep < questions.length - 1) {
+                currentStep++;
+                renderQuestion();
+            }
+        }
+        
+        // Предыдущий вопрос
+        function prevQuestion() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderQuestion();
+            }
+        }
+        
+        // Показать результат
+        async function showResult() {
+            if (!canProceed()) {
+                showMessage("Пожалуйста, ответьте на все вопросы");
                 return;
             }
             
-            if (childAge < 6 || childAge > 16) {
-                showMessage("Возраст должен быть от 6 до 16 лет", "warning");
-                return;
-            }
+            const totalScore = calculateTotalScore();
             
-            document.getElementById('confirmText').innerHTML = `
-                <strong>Проверьте данные:</strong><br><br>
-                Ребёнок: ${childName}<br>
-                Возраст: ${childAge} лет<br>
-                Пол: ${gender.value}<br>
-                Связь: ${contactMethod}
-            `;
-            document.getElementById('confirmModal').classList.add('show');
-        }
-
-        function hideConfirmModal(e) {
-            if (!e || e.target.classList.contains('confirm-modal')) {
-                document.getElementById('confirmModal').classList.remove('show');
-            }
-        }
-
-        async function processSendData() {
-            const childName = document.getElementById('childName').value.trim();
-            const childAge = document.getElementById('childAge').value;
-            const gender = document.querySelector('input[name="gender"]:checked').value;
-            const contactMethod = document.getElementById('contactMethod').value.trim();
-            
-            const btn = document.querySelector('.btn-submit');
-            const orig = btn.innerHTML;
+            const btn = document.querySelector('.nav-btn.next');
+            const origText = btn.innerHTML;
+            btn.innerHTML = '<span class="loading"></span> Отправка...';
+            btn.disabled = true;
             
             try {
-                btn.innerHTML = '<span class="loading"></span> Отправка...';
-                btn.disabled = true;
-                
                 const user = await vkBridge.send('VKWebAppGetUserInfo');
                 
                 let phoneData;
                 try {
                     phoneData = await vkBridge.send("VKWebAppGetPhoneNumber");
                 } catch {
-                    showMessage("Для записи нужно поделиться телефоном", "warning");
-                    btn.innerHTML = orig;
-                    btn.disabled = false;
-                    hideConfirmModal();
-                    return;
+                    phoneData = { phone_number: 'Не указан' };
                 }
                 
                 const payload = {
                     vk_id: user.id,
                     parent_name: `${user.first_name} ${user.last_name}`,
-                    child_name: childName,
-                    child_age: childAge,
-                    child_gender: gender,
-                    contact_method: contactMethod,
+                    child_gender: answers.gender === 'boy' ? 'Мальчик' : 'Девочка',
+                    child_age: answers.age,
+                    tech_interest: answers.techInterest,
+                    social_preference: answers.socialPreference,
+                    competitive_spirit: answers.competitiveSpirit,
+                    physical_readiness: answers.physicalReadiness,
+                    total_score: totalScore,
                     phone: phoneData.phone_number,
                     date: new Date().toISOString()
                 };
                 
-                const res = await fetch(`${SERVER_URL}/save-child`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                await fetch('https://camp-bot-server.onrender.com/save-child-quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                });
+                }).catch(e => console.log('Ошибка отправки:', e));
                 
-                const result = await res.json();
-                console.log("Ответ сервера:", result);
-                
-                if (result.status === "success") {
-                    showMessage("Заявка успешно отправлена! Мы свяжемся с вами.", "success");
-                    showThanksCard();
-                    
-                    document.getElementById('childName').value = '';
-                    document.getElementById('childAge').value = '';
-                    document.querySelectorAll('input[name="gender"]').forEach(el => el.checked = false);
-                    document.getElementById('contactMethod').value = '';
-                } else {
-                    showMessage("Ошибка при отправке. Попробуйте ещё раз.", "error");
+            } catch (e) {
+                console.log('Ошибка получения данных VK:', e);
+            }
+            
+            // Показываем результат
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = `
+                <div class="result-card">
+                    <div class="result-score">
+                        <div class="points">${totalScore}</div>
+                        <div class="max">из 80</div>
+                    </div>
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="result-title">Вы нам подходите! 🎉</div>
+                    <div class="result-role">
+                        <i class="fas fa-shield-halved"></i> Киберразведчик
+                    </div>
+                    <div class="result-text">
+                        Вы набрали <strong>${totalScore} баллов из 80</strong> и полностью подходите на смену "Киберразведчик" в роли Киберразведчика!<br><br>
+                        Наш менеджер свяжется с вами для уточнения деталей.
+                    </div>
+                    <div class="result-buttons">
+                        <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram">
+                            <i class="fab fa-telegram-plane"></i> Наш Telegram
+                        </a>
+                        <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk">
+                            <i class="fab fa-vk"></i> Наш VK
+                        </a>
+                        <button class="result-btn reset" onclick="resetQuiz()">
+                            <i class="fas fa-redo"></i> Пройти заново
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelector('.progress-container').style.display = 'none';
+        }
+        
+        // Сброс теста
+        function resetQuiz() {
+            currentStep = 0;
+            answers = {
+                gender: null,
+                age: null,
+                techInterest: null,
+                socialPreference: null,
+                competitiveSpirit: null,
+                physicalReadiness: null
+            };
+            document.querySelector('.progress-container').style.display = 'block';
+            renderQuestion();
+        }
+        
+        // Обновление статуса сервера
+        async function wakeUpServer() {
+            try {
+                const response = await fetch('https://camp-bot-server.onrender.com/');
+                if (response.ok) {
+                    document.getElementById('statusDot').classList.add('active');
+                    document.getElementById('statusText').textContent = 'Сервер готов';
                 }
             } catch (e) {
-                console.error("Ошибка отправки:", e);
-                showMessage("Ошибка. Попробуйте ещё раз", "error");
-            } finally {
-                btn.innerHTML = orig;
-                btn.disabled = false;
-                hideConfirmModal();
+                document.getElementById('statusText').textContent = 'Сервер просыпается...';
             }
         }
-
-        function showMessage(msg, type) {
-            const block = document.getElementById('messageBlock');
-            const title = document.getElementById('messageTitle');
-            const text = document.getElementById('messageText');
-            const icon = document.querySelector('.message-icon i');
-            
-            block.classList.remove('show', 'success', 'warning', 'error');
-            block.classList.add('show', type);
-            
-            if (type === 'success') {
-                icon.className = 'fas fa-check-circle';
-                title.textContent = 'Успешно';
-            } else if (type === 'warning') {
-                icon.className = 'fas fa-exclamation-triangle';
-                title.textContent = 'Внимание';
-            } else if (type === 'error') {
-                icon.className = 'fas fa-times-circle';
-                title.textContent = 'Ошибка';
-            }
-            
-            text.textContent = msg;
-            setTimeout(() => block.classList.remove('show'), 5000);
-        }
-
+        
+        // Инициализация
         window.addEventListener('load', () => {
+            renderQuestion();
             wakeUpServer();
         });
+        
+        // Делаем функции глобальными для onclick
+        window.selectGender = selectGender;
+        window.selectAge = selectAge;
+        window.selectOption = selectOption;
+        window.nextQuestion = nextQuestion;
+        window.prevQuestion = prevQuestion;
+        window.showResult = showResult;
+        window.resetQuiz = resetQuiz;
     </script>
 </body>
 </html>
