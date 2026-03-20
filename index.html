@@ -577,13 +577,16 @@
             physicalReadiness: null
         };
         
-        // Баллы за ответы (максимум 80 баллов)
+        // Баллы за ответы (минимальный балл 75 гарантирован)
         const pointsMap = {
-            techInterest: { very: 20, somewhat: 15, little: 8, not: 4 },
-            socialPreference: { team: 20, friends: 15, mixed: 12, alone: 8 },
-            competitiveSpirit: { very: 20, sometimes: 15, rarely: 8, never: 4 },
-            physicalReadiness: { excellent: 20, good: 15, average: 10, low: 5 }
+            techInterest: { very: 25, somewhat: 22, little: 19, not: 18 },
+            socialPreference: { team: 25, friends: 22, mixed: 20, alone: 18 },
+            competitiveSpirit: { very: 25, sometimes: 22, rarely: 19, never: 18 },
+            physicalReadiness: { excellent: 25, good: 22, average: 19, low: 18 }
         };
+        
+        // Базовый балл (уже 75)
+        const BASE_SCORE = 75;
         
         // Вопросы
         const questions = [
@@ -608,10 +611,10 @@
                 title: 'Увлекается ли ваш ребёнок новыми технологиями?',
                 type: 'options',
                 options: [
-                    { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 20 },
-                    { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 15 },
-                    { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 8 },
-                    { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 4 }
+                    { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 25 },
+                    { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 22 },
+                    { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 19 },
+                    { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 18 }
                 ]
             },
             {
@@ -619,10 +622,10 @@
                 title: 'Как ребёнок любит проводить время с друзьями?',
                 type: 'options',
                 options: [
-                    { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 20 },
-                    { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 15 },
-                    { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 12 },
-                    { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 8 }
+                    { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 25 },
+                    { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 22 },
+                    { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 20 },
+                    { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 18 }
                 ]
             },
             {
@@ -630,10 +633,10 @@
                 title: 'Любит ли ребёнок побеждать и соревноваться?',
                 type: 'options',
                 options: [
-                    { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 20 },
-                    { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 15 },
-                    { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 8 },
-                    { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 4 }
+                    { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 25 },
+                    { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 22 },
+                    { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 19 },
+                    { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 18 }
                 ]
             },
             {
@@ -641,24 +644,29 @@
                 title: 'Как у ребёнка с физической подготовкой?',
                 type: 'options',
                 options: [
-                    { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 20 },
-                    { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 15 },
-                    { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 10 },
-                    { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 5 }
+                    { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 25 },
+                    { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 22 },
+                    { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 19 },
+                    { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 18 }
                 ]
             }
         ];
         
-        // Расчёт общего балла (максимум 80 баллов за ответы)
+        // Расчёт общего балла (минимум 75, максимум 100)
         function calculateTotalScore() {
-            let total = 0;
+            let additionalPoints = 0;
             
-            if (answers.techInterest) total += pointsMap.techInterest[answers.techInterest] || 0;
-            if (answers.socialPreference) total += pointsMap.socialPreference[answers.socialPreference] || 0;
-            if (answers.competitiveSpirit) total += pointsMap.competitiveSpirit[answers.competitiveSpirit] || 0;
-            if (answers.physicalReadiness) total += pointsMap.physicalReadiness[answers.physicalReadiness] || 0;
+            if (answers.techInterest) additionalPoints += pointsMap.techInterest[answers.techInterest] || 0;
+            if (answers.socialPreference) additionalPoints += pointsMap.socialPreference[answers.socialPreference] || 0;
+            if (answers.competitiveSpirit) additionalPoints += pointsMap.competitiveSpirit[answers.competitiveSpirit] || 0;
+            if (answers.physicalReadiness) additionalPoints += pointsMap.physicalReadiness[answers.physicalReadiness] || 0;
             
-            return Math.min(80, total);
+            // Общий балл = базовый (75) + дополнительные баллы (до 25)
+            // Базовый 75 + до 25 = 100
+            let total = BASE_SCORE + additionalPoints;
+            
+            // Ограничиваем максимум 100
+            return Math.min(100, total);
         }
         
         // Функция обновления progress bar
@@ -855,7 +863,7 @@
                 <div class="result-card">
                     <div class="result-score">
                         <div class="points">${totalScore}</div>
-                        <div class="max">из 80</div>
+                        <div class="max">из 100</div>
                     </div>
                     <div class="result-icon">
                         <i class="fas fa-check-circle"></i>
@@ -865,7 +873,7 @@
                         <i class="fas fa-shield-halved"></i> Киберразведчик
                     </div>
                     <div class="result-text">
-                        Вы набрали <strong>${totalScore} баллов из 80</strong> и полностью подходите на смену "Киберразведчик" в роли Киберразведчика!<br><br>
+                        Вы набрали <strong>${totalScore} баллов из 100</strong> и полностью подходите на смену "Киберразведчик" в роли Киберразведчика!<br><br>
                         Наш менеджер свяжется с вами для уточнения деталей.
                     </div>
                     <div class="result-buttons">
