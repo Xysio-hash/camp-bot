@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Лига Киберразведчиков | Подбор программы</title>
+    <title>Летний детский лагерь | Подбор программы</title>
     
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
         .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .logo-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; z-index: 2; border: 3px solid rgba(255,255,255,0.5); backdrop-filter: blur(5px); overflow: hidden; }
+        .logo-circle i { font-size: 32px; color: white; }
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
         .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .header .subtitle { font-size: 0.9em; opacity: 0.95; }
@@ -89,10 +90,10 @@
                 <span id="statusText">Готово</span>
             </div>
             <div class="logo-circle">
-                <img src="изображение_2026-03-20_200113175.png" alt="Лига Киберразведчиков" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-shield-halved\'></i>'">
+                <i class="fas fa-tree"></i>
             </div>
-            <h1>Лига Киберразведчиков</h1>
-            <div class="subtitle">Найди своё призвание</div>
+            <h1>Летний детский лагерь</h1>
+            <div class="subtitle">Найди свою программу</div>
         </div>
         
         <div id="messageBlock" class="message-block">
@@ -268,8 +269,8 @@
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
                     <div class="result-icon"><i class="fas fa-check-circle"></i></div>
                     <div class="result-title">Вы нам подходите! 🎉</div>
-                    <div class="result-role"><i class="fas fa-shield-halved"></i> Киберразведчик</div>
-                    <div class="result-text">Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите на смену "Киберразведчик" в роли Киберразведчика!<br><br>Наш менеджер свяжется с вами.</div>
+                    <div class="result-role"><i class="fas fa-tree"></i> Летний детский лагерь</div>
+                    <div class="result-text">Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей летней программе!<br><br>Наш менеджер свяжется с вами.</div>
                     <div class="result-buttons">
                         <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Наш Telegram</a>
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> Наш VK</a>
