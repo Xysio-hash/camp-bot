@@ -84,11 +84,13 @@
             z-index: 2;
             border: 3px solid rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(5px);
+            overflow: hidden;
         }
         
-        .logo-circle i {
-            font-size: 32px;
-            color: white;
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .header h1 {
@@ -531,7 +533,7 @@
             </div>
             
             <div class="logo-circle">
-                <i class="fas fa-shield-halved"></i>
+                <img src="изображение_2026-03-20_200113175.png" alt="Лига Киберразведчиков">
             </div>
             
             <h1>Лига Киберразведчиков</h1>
@@ -577,16 +579,16 @@
             physicalReadiness: null
         };
         
-        // Баллы за ответы (минимальный балл 75 гарантирован)
+        // Баллы за ответы (минимальный балл 76, максимальный 98)
         const pointsMap = {
-            techInterest: { very: 25, somewhat: 22, little: 19, not: 18 },
-            socialPreference: { team: 25, friends: 22, mixed: 20, alone: 18 },
-            competitiveSpirit: { very: 25, sometimes: 22, rarely: 19, never: 18 },
-            physicalReadiness: { excellent: 25, good: 22, average: 19, low: 18 }
+            techInterest: { very: 22, somewhat: 19, little: 16, not: 14 },
+            socialPreference: { team: 22, friends: 19, mixed: 17, alone: 14 },
+            competitiveSpirit: { very: 22, sometimes: 19, rarely: 16, never: 14 },
+            physicalReadiness: { excellent: 22, good: 19, average: 16, low: 14 }
         };
         
-        // Базовый балл (уже 75)
-        const BASE_SCORE = 75;
+        // Базовый балл (минимально 76)
+        const BASE_SCORE = 76;
         
         // Вопросы
         const questions = [
@@ -611,10 +613,10 @@
                 title: 'Увлекается ли ваш ребёнок новыми технологиями?',
                 type: 'options',
                 options: [
-                    { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 25 },
-                    { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 22 },
-                    { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 19 },
-                    { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 18 }
+                    { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 22 },
+                    { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 19 },
+                    { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 16 },
+                    { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 14 }
                 ]
             },
             {
@@ -622,10 +624,10 @@
                 title: 'Как ребёнок любит проводить время с друзьями?',
                 type: 'options',
                 options: [
-                    { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 25 },
-                    { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 22 },
-                    { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 20 },
-                    { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 18 }
+                    { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 22 },
+                    { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 19 },
+                    { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 17 },
+                    { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 14 }
                 ]
             },
             {
@@ -633,10 +635,10 @@
                 title: 'Любит ли ребёнок побеждать и соревноваться?',
                 type: 'options',
                 options: [
-                    { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 25 },
-                    { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 22 },
-                    { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 19 },
-                    { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 18 }
+                    { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 22 },
+                    { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 19 },
+                    { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 16 },
+                    { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 14 }
                 ]
             },
             {
@@ -644,15 +646,15 @@
                 title: 'Как у ребёнка с физической подготовкой?',
                 type: 'options',
                 options: [
-                    { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 25 },
-                    { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 22 },
-                    { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 19 },
-                    { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 18 }
+                    { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 22 },
+                    { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 19 },
+                    { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 16 },
+                    { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 14 }
                 ]
             }
         ];
         
-        // Расчёт общего балла (минимум 75, максимум 100)
+        // Расчёт общего балла (минимум 76, максимум 98)
         function calculateTotalScore() {
             let additionalPoints = 0;
             
@@ -661,12 +663,30 @@
             if (answers.competitiveSpirit) additionalPoints += pointsMap.competitiveSpirit[answers.competitiveSpirit] || 0;
             if (answers.physicalReadiness) additionalPoints += pointsMap.physicalReadiness[answers.physicalReadiness] || 0;
             
-            // Общий балл = базовый (75) + дополнительные баллы (до 25)
-            // Базовый 75 + до 25 = 100
-            let total = BASE_SCORE + additionalPoints;
+            // Общий балл = базовый (76) + дополнительные баллы (от 56 до 88)
+            // 76 + 56 = 132 (слишком много), нужно скорректировать
+            // Сумма максимальных баллов: 22*4 = 88, минимальных: 14*4 = 56
+            // Прибавляем к 76: 76+56=132, 76+88=164 — это не подходит
             
-            // Ограничиваем максимум 100
-            return Math.min(100, total);
+            // Правильная формула: баллы от 76 до 98
+            // Преобразуем: дополнительные баллы от 0 до 22
+            // Вычисляем процент от максимальной суммы дополнительных баллов
+            const maxAdditional = 88; // 22*4
+            const minAdditional = 56; // 14*4
+            
+            // Нормализуем дополнительные баллы от 0 до 22
+            let normalized = 0;
+            if (additionalPoints >= minAdditional && maxAdditional > minAdditional) {
+                normalized = ((additionalPoints - minAdditional) / (maxAdditional - minAdditional)) * 22;
+            }
+            
+            // Итоговый балл: от 76 до 98
+            let total = Math.floor(BASE_SCORE + normalized);
+            
+            // Ограничиваем диапазон 76-98
+            total = Math.min(98, Math.max(76, total));
+            
+            return total;
         }
         
         // Функция обновления progress bar
