@@ -117,6 +117,9 @@
     <script>
         vkBridge.send('VKWebAppInit');
         
+        // ✅ НОВЫЙ РАБОЧИЙ СЕРВЕР
+        const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
+        
         let currentStep = 0;
         let answers = {
             gender: null, age: null, techInterest: null,
@@ -260,10 +263,12 @@
                     physical_readiness: answers.physicalReadiness, total_score: score, phone: phone,
                     date: new Date().toISOString()
                 };
-                await fetch('https://camp-bot-server.onrender.com/save-child-quiz', {
+                const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
                 });
-            } catch(e) { console.log(e); }
+                const result = await response.json();
+                console.log('Ответ сервера:', result);
+            } catch(e) { console.log('Ошибка:', e); }
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
@@ -290,7 +295,7 @@
         
         async function wakeUpServer() {
             try {
-                const res = await fetch('https://camp-bot-server.onrender.com/');
+                const res = await fetch(`${SERVER_URL}/`);
                 if (res.ok) document.getElementById('statusDot').classList.add('active');
             } catch(e) { document.getElementById('statusText').innerText = 'Сервер просыпается...'; }
         }
