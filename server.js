@@ -2,6 +2,7 @@ const express = require('express');
 const { google } = require('googleapis');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const https = require('https');
 
 const app = express();
 
@@ -34,9 +35,27 @@ try {
     console.error('❌ Ошибка авторизации:', error.message);
 }
 
+// Функция для автоматического пинга сервера (чтобы не засыпал)
+function keepAlive() {
+    const serverUrl = 'https://camp-bot-euhn.onrender.com';
+    console.log('🔁 Пингую себя, чтобы не заснуть...');
+    
+    https.get(serverUrl, (res) => {
+        console.log(`✅ Пинг успешен, статус: ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.log(`❌ Ошибка пинга: ${err.message}`);
+    });
+}
+
+// Запускаем пинг каждые 10 минут (600000 мс)
+setInterval(keepAlive, 10 * 60 * 1000);
+
+// Первый пинг через 1 минуту после запуска
+setTimeout(keepAlive, 60 * 1000);
+
 // Проверка работы сервера
 app.get('/', (req, res) => {
-    res.send('Сервер работает!');
+    res.send('Сервер работает! 🚀');
 });
 
 // Основной endpoint для сохранения данных
@@ -153,4 +172,5 @@ app.listen(PORT, () => {
     console.log(`🌍 CORS разрешен для всех доменов`);
     console.log(`📊 Endpoint: /save-child-quiz`);
     console.log(`📋 Google Sheets ID: ${SHEET_ID}`);
+    console.log(`🔄 Автопинг включен: каждые 10 минут сервер будет будить сам себя`);
 });
