@@ -7,7 +7,7 @@ const app = express();
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
-const SHEET_ID = '1vJuTqSqud9QvN4tPMtPBB46K2R08bbMhJ4YbCYg54R4'; // замените на ваш ID
+const SHEET_ID = '1o3sjAJIom-ZhjA2lCmoUtO9iEk7SOBFrmCw9jJ4yJq8'; // замените на ваш ID
 
 let auth;
 try {
