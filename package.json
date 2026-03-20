@@ -1,7 +1,7 @@
 {
   "name": "camp-bot-server",
   "version": "1.0.0",
-  "description": "Сервер для детского лагеря Лига Киберразведчиков",
+  "description": "Сервер для летнего детского лагеря",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
