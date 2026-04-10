@@ -11,63 +11,62 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        /* Весенний зелено-желтый градиент вместо фиолетового */
-        body { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .container { width: 100%; max-width: 550px; background: rgba(255,255,255,0.98); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); overflow: hidden; animation: slideUp 0.5s ease; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 550px; background: rgba(255,255,255,0.98); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .header { background: linear-gradient(135deg, #2e7d32 0%, #f57f17 100%); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
-        .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%); animation: rotate 20s linear infinite; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .logo-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; z-index: 2; border: 3px solid rgba(255,255,255,0.5); backdrop-filter: blur(5px); overflow: hidden; }
         .logo-circle i { font-size: 32px; color: white; }
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .header .subtitle { font-size: 0.9em; opacity: 0.95; }
         .server-status { position: absolute; top: 12px; right: 15px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.7em; backdrop-filter: blur(5px); z-index: 10; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffd700; animation: pulse 1.5s infinite; }
-        .status-dot.active { background: #aeea00; animation: none; }
+        .status-dot.active { background: #4caf50; animation: none; }
         @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
         .content { padding: 25px; }
         .progress-container { margin-bottom: 25px; }
         .progress-bar { height: 8px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
-        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #2e7d32; font-weight: 500; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
+        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #667eea; font-weight: 500; }
         .question-card { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         .question-title { font-size: 1.2em; font-weight: 600; color: #333; margin-bottom: 20px; text-align: center; }
-        .question-title i { color: #43a047; margin-right: 10px; }
+        .question-title i { color: #667eea; margin-right: 10px; }
         .age-selector { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
         .age-btn { width: 55px; height: 55px; border-radius: 50%; background: white; border: 2px solid #e0e0e0; font-size: 1.1em; font-weight: 600; color: #333; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-        .age-btn:hover { border-color: #43a047; transform: scale(1.05); }
-        .age-btn.selected { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); border-color: transparent; color: white; }
+        .age-btn:hover { border-color: #667eea; transform: scale(1.05); }
+        .age-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
         .gender-group { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
         .gender-option { flex: 1; max-width: 150px; }
         .gender-option input { display: none; }
         .gender-option label { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px; background: white; border: 2px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-        .gender-option input:checked + label { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); border-color: transparent; color: white; }
+        .gender-option input:checked + label { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
         .gender-option input:checked + label i { color: white; }
-        .gender-option label i { font-size: 2.2em; color: #43a047; }
+        .gender-option label i { font-size: 2.2em; color: #667eea; }
         .gender-option label span { font-size: 0.95em; font-weight: 500; }
         .options-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
         .option-btn { padding: 14px 18px; background: white; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 12px; }
-        .option-btn:hover { border-color: #43a047; transform: translateX(5px); }
-        .option-btn.selected { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); border-color: transparent; color: white; }
+        .option-btn:hover { border-color: #667eea; transform: translateX(5px); }
+        .option-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
         .option-btn.selected i { color: white; }
-        .option-btn i { font-size: 1.1em; color: #43a047; width: 24px; }
+        .option-btn i { font-size: 1.1em; color: #667eea; width: 24px; }
         .nav-buttons { display: flex; gap: 15px; margin-top: 25px; }
         .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .nav-btn.prev { background: #f0f0f0; color: #666; }
-        .nav-btn.next { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); color: white; }
-        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(67, 160, 71, 0.3); }
+        .nav-btn.next { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
         .nav-btn.prev:hover { background: #e0e0e0; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .result-card { text-align: center; animation: fadeIn 0.5s ease; }
-        .result-score { background: linear-gradient(135deg, #43a047 0%, #ffb300 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; box-shadow: 0 10px 25px rgba(67, 160, 71, 0.3); }
+        .result-score { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; box-shadow: 0 10px 25px rgba(102,126,234,0.3); }
         .result-score .points { font-size: 2.5em; font-weight: 800; }
         .result-score .max { font-size: 0.9em; opacity: 0.9; }
-        .result-icon { font-size: 3.5em; color: #ffb300; margin-bottom: 15px; }
+        .result-icon { font-size: 3.5em; color: #4caf50; margin-bottom: 15px; }
         .result-title { font-size: 1.5em; font-weight: 700; color: #333; margin-bottom: 10px; }
-        .result-role { font-size: 1.2em; color: #2e7d32; font-weight: 600; margin-bottom: 15px; background: #e8f5e9; display: inline-block; padding: 6px 20px; border-radius: 50px; }
+        .result-role { font-size: 1.2em; color: #667eea; font-weight: 600; margin-bottom: 15px; background: #f0f0ff; display: inline-block; padding: 6px 20px; border-radius: 50px; }
         .result-text { font-size: 1em; color: #666; line-height: 1.5; margin-bottom: 25px; }
         .result-buttons { display: flex; flex-direction: column; gap: 12px; }
         .result-btn { padding: 14px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
@@ -91,11 +90,10 @@
                 <span id="statusText">Готово</span>
             </div>
             <div class="logo-circle">
-                <!-- Иконка солнца/цветка для мая -->
                 <i class="fas fa-sun"></i>
             </div>
             <h1>Майская площадка</h1>
-            <div class="subtitle">Найди программу на майские каникулы</div>
+            <div class="subtitle">Найди свою программу</div>
         </div>
         
         <div id="messageBlock" class="message-block">
@@ -112,7 +110,7 @@
         </div>
         
         <div class="footer">
-            <p><i class="fas fa-seedling" style="color: #43a047;"></i> Проведи майские каникулы с пользой и интересом!</p>
+            <p><i class="fas fa-heart" style="color: #ff6b6b;"></i> Проведи майские каникулы с пользой и интересом!</p>
         </div>
     </div>
 
@@ -140,36 +138,35 @@
         
         const BASE_SCORE = 76;
         
-        // Тексты вопросов адаптированы под майскую площадку
         const questions = [
             { id: 'gender', title: 'Пол ребёнка', type: 'gender', options: [
                 { value: 'boy', label: 'Мальчик', icon: 'fas fa-mars' },
                 { value: 'girl', label: 'Девочка', icon: 'fas fa-venus' }
             ]},
             { id: 'age', title: 'Возраст ребёнка', type: 'age', min: 6, max: 16 },
-            { id: 'techInterest', title: 'Интересуется ли ребёнок робототехникой или программированием?', type: 'options', options: [
-                { value: 'very', label: 'Очень! Собирает конструкторы, любит гаджеты', icon: 'fas fa-robot', points: 22 },
-                { value: 'somewhat', label: 'Интересуется, но не глубоко', icon: 'fas fa-laptop', points: 19 },
-                { value: 'little', label: 'Больше гуманитарий или художник', icon: 'fas fa-paint-brush', points: 16 },
-                { value: 'not', label: 'Совсем не интересуется', icon: 'fas fa-futbol', points: 14 }
+            { id: 'techInterest', title: 'Увлекается ли ваш ребёнок новыми технологиями?', type: 'options', options: [
+                { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 22 },
+                { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 19 },
+                { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 16 },
+                { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 14 }
             ]},
-            { id: 'socialPreference', title: 'Как ребёнок ведет себя в новом коллективе?', type: 'options', options: [
-                { value: 'team', label: 'Быстро становится лидером, любит командные игры', icon: 'fas fa-users', points: 22 },
-                { value: 'friends', label: 'Легко находит 1-2 друзей и держится с ними', icon: 'fas fa-user-friends', points: 19 },
-                { value: 'mixed', label: 'Присматривается, но потом вливается', icon: 'fas fa-smile', points: 17 },
-                { value: 'alone', label: 'Предпочитает играть один, тяжело сходится', icon: 'fas fa-user', points: 14 }
+            { id: 'socialPreference', title: 'Как ребёнок любит проводить время с друзьями?', type: 'options', options: [
+                { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 22 },
+                { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 19 },
+                { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 17 },
+                { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 14 }
             ]},
-            { id: 'competitiveSpirit', title: 'Любит ли ребёнок соревнования и квесты?', type: 'options', options: [
-                { value: 'very', label: 'Обожает выигрывать и быть первым!', icon: 'fas fa-medal', points: 22 },
-                { value: 'sometimes', label: 'Любит, но не расстраивается из-за проигрыша', icon: 'fas fa-gamepad', points: 19 },
-                { value: 'rarely', label: 'Предпочитает творческие задания без гонки', icon: 'fas fa-puzzle-piece', points: 16 },
-                { value: 'never', label: 'Не любит, это вызывает стресс', icon: 'fas fa-heart', points: 14 }
+            { id: 'competitiveSpirit', title: 'Любит ли ребёнок побеждать и соревноваться?', type: 'options', options: [
+                { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 22 },
+                { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 19 },
+                { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 16 },
+                { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 14 }
             ]},
-            { id: 'physicalReadiness', title: 'Готов ли ребёнок к активным прогулкам и подвижным играм?', type: 'options', options: [
-                { value: 'excellent', label: 'Да! Энергии хоть отбавляй, спортсмен', icon: 'fas fa-bicycle', points: 22 },
-                { value: 'good', label: 'В целом да, любит побегать', icon: 'fas fa-tree', points: 19 },
-                { value: 'average', label: 'Скорее спокойный, но иногда играет', icon: 'fas fa-chair', points: 16 },
-                { value: 'low', label: 'Нет, предпочитает настолки и чтение', icon: 'fas fa-book-open', points: 14 }
+            { id: 'physicalReadiness', title: 'Как у ребёнка с физической подготовкой?', type: 'options', options: [
+                { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 22 },
+                { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 19 },
+                { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 16 },
+                { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 14 }
             ]}
         ];
         
@@ -260,10 +257,12 @@
             
             let phone = 'Не указан';
             let userName = 'Гость';
+            let userId = '';
             
             try {
                 const user = await vkBridge.send('VKWebAppGetUserInfo');
                 userName = `${user.first_name} ${user.last_name}`;
+                userId = user.id;
                 try { 
                     const p = await vkBridge.send('VKWebAppGetPhoneNumber'); 
                     if (p && p.phone_number) phone = p.phone_number; 
@@ -274,7 +273,7 @@
             
             // Формируем данные для таблицы
             const formData = new FormData();
-            formData.append('vk_id', 'id'); // ID можно получить, но для Google таблицы упростим
+            formData.append('vk_id', userId);
             formData.append('parent_name', userName);
             formData.append('child_gender', answers.gender === 'boy' ? 'Мальчик' : 'Девочка');
             formData.append('child_age', answers.age);
@@ -290,7 +289,7 @@
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Обязательно для Google Apps Script
+                    mode: 'no-cors',
                     body: formData
                 });
                 console.log('Данные отправлены в Google Sheets');
@@ -298,19 +297,13 @@
                 console.log('Ошибка отправки в Google:', e); 
             }
             
-            // Отображение результата (текст изменен под майскую площадку)
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
                     <div class="result-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="result-title">Отлично! Программа Майской площадки вам подходит 🎉</div>
-                    <div class="result-role"><i class="fas fa-sun"></i> Смена: Майские каникулы</div>
-                    <div class="result-text">
-                        Вы набрали <strong>${score} баллов из 100</strong>. 
-                        Вашему ребенку у нас точно понравится!<br><br>
-                        <i class="fas fa-phone-alt"></i> Мы получили ваш номер телефона (${phone}) и свяжемся с вами в ближайшее время для подтверждения брони.<br><br>
-                        <strong>Что дальше?</strong> Наш менеджер расскажет о расписании активностей, экскурсиях и мастер-классах на майские праздники.
-                    </div>
+                    <div class="result-title">Ура! Наша программа отлично подойдёт для вашего ребёнка 🎉</div>
+                    <div class="result-role"><i class="fas fa-sun"></i> Майская площадка</div>
+                    <div class="result-text">Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей майской программе!<br><br>Наш менеджер свяжется с вами по номеру ${phone}.</div>
                     <div class="result-buttons">
                         <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Наш Telegram</a>
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> Наш VK</a>
@@ -329,7 +322,6 @@
         };
         
         async function wakeUpServer() {
-            // Эта функция теперь необязательна, но оставим для статуса
             try {
                 const res = await fetch(`${SERVER_URL}/`);
                 if (res.ok) document.getElementById('statusDot').classList.add('active');
