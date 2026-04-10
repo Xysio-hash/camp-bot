@@ -15,7 +15,6 @@ const SPREADSHEET_ID = '13jfMRrzrSiK4lWkOx2MdIg40fjBjNtDmrxz8Y6eVyBo';
 
 // Настройка Google Sheets API через сервисный аккаунт
 const auth = new google.auth.GoogleAuth({
-    // Ключ хранится в переменной окружения Render
     credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY || '{}'),
     scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
@@ -27,30 +26,29 @@ app.post('/save-child-quiz', async (req, res) => {
     try {
         const data = req.body;
         
-        // Подготовка строки для таблицы
+        // Подготовка строки для таблицы (порядок соответствует вашим колонкам)
         const row = [
-            data.date || new Date().toLocaleString('ru-RU'),
-            data.vk_id || '',
-            data.parent_name || '',
-            data.child_gender || '',
-            data.child_age || '',
-            data.tech_interest || '',
-            data.social_preference || '',
-            data.competitive_spirit || '',
-            data.physical_readiness || '',
-            data.total_score || '',
-            data.phone || ''
+            data.date || new Date().toLocaleString('ru-RU'),           // Дата
+            data.vk_id || '',                                          // Vk Id
+            data.parent_name || '',                                    // Имя Родителя
+            data.child_gender || '',                                   // Пол
+            data.child_age || '',                                      // Возраст
+            data.social_preference || '',                              // Социальная
+            data.competitive_spirit || '',                             // Соревновательность
+            data.physical_readiness || '',                             // Физиология
+            data.total_score || '',                                    // Баллы
+            data.phone || ''                                           // Телефон
         ];
         
         // Запись в Google Таблицу
         await sheets.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
-            range: 'Лист1!A:K',
+            range: 'Лист1!A:J',  // Колонки A-J (10 колонок)
             valueInputOption: 'USER_ENTERED',
             requestBody: { values: [row] }
         });
         
-        console.log('✅ Данные записаны в Google Таблицу:', row[2], row[10]);
+        console.log('✅ Данные записаны в Google Таблицу:', row[2], row[9]);
         res.json({ success: true, message: 'Данные сохранены' });
         
     } catch (error) {
