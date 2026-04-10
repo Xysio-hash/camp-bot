@@ -117,10 +117,7 @@
     <script>
         vkBridge.send('VKWebAppInit');
         
-        // ⚠️ ВАЖНО: Замените этот URL на URL вашего развернутого Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24BUFdn6CMwymiCVXusIiWG0Q_pgVPjf-oeqqwRT9pvS9fs6diDBQyphng8IT7Dmx/exec';
-        
-        // Сервер для проверки статуса (можно оставить или убрать)
+        // URL вашего сервера на Render
         const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
         
         let currentStep = 0;
@@ -271,30 +268,31 @@
                 console.log('Не удалось получить данные VK, возможно запущено вне VK');
             }
             
-            // Формируем данные для таблицы
-            const formData = new FormData();
-            formData.append('vk_id', userId);
-            formData.append('parent_name', userName);
-            formData.append('child_gender', answers.gender === 'boy' ? 'Мальчик' : 'Девочка');
-            formData.append('child_age', answers.age);
-            formData.append('tech_interest', answers.techInterest);
-            formData.append('social_preference', answers.socialPreference);
-            formData.append('competitive_spirit', answers.competitiveSpirit);
-            formData.append('physical_readiness', answers.physicalReadiness);
-            formData.append('total_score', score);
-            formData.append('phone', phone);
-            formData.append('date', new Date().toLocaleString('ru-RU'));
+            const payload = {
+                vk_id: userId,
+                parent_name: userName,
+                child_gender: answers.gender === 'boy' ? 'Мальчик' : 'Девочка',
+                child_age: answers.age,
+                tech_interest: answers.techInterest,
+                social_preference: answers.socialPreference,
+                competitive_spirit: answers.competitiveSpirit,
+                physical_readiness: answers.physicalReadiness,
+                total_score: score,
+                phone: phone,
+                date: new Date().toLocaleString('ru-RU')
+            };
             
-            // Отправка в Google Таблицу
+            // Отправка на ваш сервер Render
             try {
-                await fetch(GOOGLE_SCRIPT_URL, {
+                const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
-                console.log('Данные отправлены в Google Sheets');
+                const result = await response.json();
+                console.log('✅ Сервер ответил:', result);
             } catch(e) { 
-                console.log('Ошибка отправки в Google:', e); 
+                console.log('⚠️ Ошибка отправки на сервер:', e); 
             }
             
             document.getElementById('questionContainer').innerHTML = `
@@ -325,10 +323,16 @@
             try {
                 const res = await fetch(`${SERVER_URL}/`);
                 if (res.ok) document.getElementById('statusDot').classList.add('active');
-            } catch(e) { document.getElementById('statusText').innerText = 'Сервер просыпается...'; }
+                document.getElementById('statusText').innerText = 'Сервер онлайн';
+            } catch(e) { 
+                document.getElementById('statusText').innerText = 'Сервер просыпается...'; 
+            }
         }
         
-        window.addEventListener('load', () => { renderQuestion(); wakeUpServer(); });
+        window.addEventListener('load', () => { 
+            renderQuestion(); 
+            wakeUpServer(); 
+        });
     </script>
 </body>
 </html>
