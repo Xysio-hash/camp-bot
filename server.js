@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // ID вашей Google Таблицы (замените на свой)
-const SPREADSHEET_ID = '1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const SPREADSHEET_ID = '13jfMRrzrSiK4lWkOx2MdIg40fjBjNtDmrxz8Y6eVyBo';
 
 // Настройка Google Sheets API через сервисный аккаунт
 const auth = new google.auth.GoogleAuth({
