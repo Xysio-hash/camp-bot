@@ -1,176 +1,69 @@
 const express = require('express');
-const { google } = require('googleapis');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const https = require('https');
+const { google } = require('googleapis');
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Настройка CORS — разрешаем все домены
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
-app.use(bodyParser.json());
+// ID вашей Google Таблицы (замените на свой)
+const SPREADSHEET_ID = '1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 
-// ID вашей Google Таблицы
-const SHEET_ID = '1o3sjAJIom-ZhjA2lCmoUtO9iEk7SOBFrmCw9jJ4yJq8';
-
-// Авторизация для Google Sheets
-let auth;
-try {
-    if (process.env.GOOGLE_CREDENTIALS) {
-        const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
-        auth = new google.auth.GoogleAuth({
-            credentials: credentials,
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-        });
-        console.log('✅ Авторизация через переменные окружения');
-    } else {
-        console.log('❌ Нет GOOGLE_CREDENTIALS на сервере');
-    }
-} catch (error) {
-    console.error('❌ Ошибка авторизации:', error.message);
-}
-
-// Функция для автоматического пинга сервера (чтобы не засыпал)
-function keepAlive() {
-    const serverUrl = 'https://camp-bot-euhn.onrender.com';
-    console.log('🔁 Пингую себя, чтобы не заснуть...');
-    
-    https.get(serverUrl, (res) => {
-        console.log(`✅ Пинг успешен, статус: ${res.statusCode}`);
-    }).on('error', (err) => {
-        console.log(`❌ Ошибка пинга: ${err.message}`);
-    });
-}
-
-// Запускаем пинг каждые 10 минут (600000 мс)
-setInterval(keepAlive, 10 * 60 * 1000);
-
-// Первый пинг через 1 минуту после запуска
-setTimeout(keepAlive, 60 * 1000);
-
-// Проверка работы сервера
-app.get('/', (req, res) => {
-    res.send('Сервер работает! 🚀');
+// Настройка Google Sheets API через сервисный аккаунт
+const auth = new google.auth.GoogleAuth({
+    // Ключ хранится в переменной окружения Render
+    credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY || '{}'),
+    scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
-// Основной endpoint для сохранения данных
+const sheets = google.sheets({ version: 'v4', auth });
+
+// Эндпоинт для сохранения данных квиза
 app.post('/save-child-quiz', async (req, res) => {
-    console.log('📥 Получен запрос на /save-child-quiz');
-    console.log('📦 Тело запроса:', JSON.stringify(req.body, null, 2));
-    
     try {
-        const { 
-            vk_id, 
-            parent_name, 
-            child_gender, 
-            child_age, 
-            tech_interest, 
-            social_preference, 
-            competitive_spirit, 
-            physical_readiness,
-            total_score,
-            phone,
-            date 
-        } = req.body;
+        const data = req.body;
         
-        console.log('📝 Обработка заявки:', { parent_name, child_age, total_score });
+        // Подготовка строки для таблицы
+        const row = [
+            data.date || new Date().toLocaleString('ru-RU'),
+            data.vk_id || '',
+            data.parent_name || '',
+            data.child_gender || '',
+            data.child_age || '',
+            data.tech_interest || '',
+            data.social_preference || '',
+            data.competitive_spirit || '',
+            data.physical_readiness || '',
+            data.total_score || '',
+            data.phone || ''
+        ];
         
-        // Проверяем авторизацию
-        if (!auth) {
-            throw new Error('Нет авторизации Google Sheets. Проверьте переменную GOOGLE_CREDENTIALS');
-        }
-
-        // Преобразуем значения ответов в читаемый вид
-        const techMap = {
-            'very': 'Очень увлекается',
-            'somewhat': 'Интересуется, но не фанат',
-            'little': 'Не особо',
-            'not': 'Совсем не интересуется'
-        };
-        
-        const socialMap = {
-            'team': 'В команде',
-            'friends': 'С 1-2 друзьями',
-            'mixed': 'По настроению',
-            'alone': 'Один'
-        };
-        
-        const competitiveMap = {
-            'very': 'Обожает соревнования',
-            'sometimes': 'Нравится, но не расстраивается',
-            'rarely': 'Не любит соревноваться',
-            'never': 'Избегает соревнований'
-        };
-        
-        const physicalMap = {
-            'excellent': 'Отлично',
-            'good': 'Хорошо',
-            'average': 'Средне',
-            'low': 'Слабо'
-        };
-        
-        const genderText = child_gender === 'Мальчик' ? 'Мальчик' : 'Девочка';
-        
-        const sheets = google.sheets({ version: 'v4', auth: await auth.getClient() });
-        
-        // Добавляем строку в таблицу
-        const response = await sheets.spreadsheets.values.append({
-            spreadsheetId: SHEET_ID,
-            range: 'Тесты!A:M',
+        // Запись в Google Таблицу
+        await sheets.spreadsheets.values.append({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'Лист1!A:K',
             valueInputOption: 'USER_ENTERED',
-            requestBody: {
-                values: [[
-                    date || new Date().toISOString(),
-                    vk_id || '',
-                    parent_name || '',
-                    genderText,
-                    child_age || '',
-                    techMap[tech_interest] || tech_interest || '',
-                    socialMap[social_preference] || social_preference || '',
-                    competitiveMap[competitive_spirit] || competitive_spirit || '',
-                    physicalMap[physical_readiness] || physical_readiness || '',
-                    total_score || 0,
-                    phone || '',
-                    '✅ Подходит',
-                    'Летний детский лагерь'
-                ]]
-            }
+            requestBody: { values: [row] }
         });
-
-        console.log('✅ Данные сохранены в Google таблицу');
-        console.log('📊 Строка добавлена в:', response.data.updates?.updatedRange);
         
-        res.json({ 
-            status: 'success', 
-            message: 'Результаты успешно сохранены',
-            row: response.data.updates?.updatedRange || 'неизвестно'
-        });
-
+        console.log('✅ Данные записаны в Google Таблицу:', row[2], row[10]);
+        res.json({ success: true, message: 'Данные сохранены' });
+        
     } catch (error) {
-        console.error('❌ ОШИБКА СОХРАНЕНИЯ:', error);
-        res.status(500).json({ 
-            status: 'error', 
-            message: 'Ошибка сервера при сохранении данных',
-            error: error.message 
-        });
+        console.error('❌ Ошибка записи в Таблицу:', error.message);
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
-// Для совместимости
-app.post('/save-child', async (req, res) => {
-    res.json({ status: 'success', message: 'Используйте /save-child-quiz' });
+// Тестовый эндпоинт
+app.get('/', (req, res) => {
+    res.send('✅ Сервер работает. Эндпоинт /save-child-quiz готов.');
 });
 
-const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`🚀 Сервер запущен на порту ${PORT}`);
-    console.log(`🌍 CORS разрешен для всех доменов`);
-    console.log(`📊 Endpoint: /save-child-quiz`);
-    console.log(`📋 Google Sheets ID: ${SHEET_ID}`);
-    console.log(`🔄 Автопинг включен: каждые 10 минут сервер будет будить сам себя`);
 });
