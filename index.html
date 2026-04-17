@@ -30,7 +30,7 @@
         .progress-container { margin-bottom: 25px; }
         .progress-bar { height: 8px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
-        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #667eea; font-weight: 500; }
+        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #667eea; font-weight:500; }
         .question-card { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         .question-title { font-size: 1.2em; font-weight: 600; color: #333; margin-bottom: 20px; text-align: center; }
@@ -76,6 +76,17 @@
         .result-btn:hover { transform: translateY(-2px); }
         .message-block { background: white; border-radius: 20px; padding: 12px 15px; margin: 0 25px 15px 25px; display: none; border-left: 4px solid #ff9800; font-size: 0.9em; }
         .message-block.show { display: block; }
+        
+        /* Стили для блока согласия */
+        .consent-block { background: #f8f9ff; border-radius: 15px; padding: 15px; margin: 15px 0; border: 1px solid #e0e0e0; }
+        .consent-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+        .consent-checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: #667eea; cursor: pointer; }
+        .consent-checkbox span { font-size: 0.85em; color: #555; line-height: 1.4; }
+        .consent-checkbox a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .consent-checkbox a:hover { text-decoration: underline; }
+        .consent-error { color: #f44336; font-size: 0.8em; margin-top: 8px; margin-left: 30px; display: none; }
+        .consent-error.show { display: block; }
+        
         .footer { text-align: center; padding: 12px; background: #f8f9fa; color: #666; font-size: 0.75em; border-top: 1px solid #e0e0e0; }
         .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -121,6 +132,7 @@
         const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
         
         let currentStep = 0;
+        let consentGiven = false; // Флаг согласия на обработку данных
         let answers = {
             gender: null, age: null, techInterest: null,
             socialPreference: null, competitiveSpirit: null, physicalReadiness: null
@@ -228,15 +240,51 @@
                 html += `</div>`;
             }
             
+            // Если это последний вопрос — добавляем блок согласия перед кнопками
+            if (currentStep === questions.length - 1) {
+                html += `
+                    <div class="consent-block">
+                        <label class="consent-checkbox">
+                            <input type="checkbox" id="consentCheckbox" onchange="toggleConsent(this.checked)">
+                            <span>
+                                Я даю согласие на обработку персональных данных в соответствии с 
+                                <a href="#" onclick="showPolicy(); return false;">Политикой конфиденциальности</a> 
+                                и Федеральным законом №152-ФЗ «О персональных данных».
+                            </span>
+                        </label>
+                        <div class="consent-error" id="consentError">Необходимо дать согласие на обработку данных</div>
+                    </div>
+                `;
+            }
+            
             html += `<div class="nav-buttons">`;
             if (currentStep > 0) html += `<button class="nav-btn prev" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Назад</button>`;
             else html += `<div style="flex:1"></div>`;
             if (currentStep < questions.length - 1) html += `<button class="nav-btn next" onclick="nextQuestion()" ${!canProceed() ? 'disabled' : ''}>Далее <i class="fas fa-arrow-right"></i></button>`;
-            else html += `<button class="nav-btn next" onclick="showResult()" ${!canProceed() ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
+            else html += `<button class="nav-btn next" id="submitBtn" onclick="showResult()" ${!canProceed() ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
             html += `</div></div>`;
             container.innerHTML = html;
             updateProgress();
         }
+        
+        // Функция для переключения согласия
+        window.toggleConsent = function(checked) {
+            consentGiven = checked;
+            const errorDiv = document.getElementById('consentError');
+            if (errorDiv) errorDiv.classList.remove('show');
+        };
+        
+        // Показать политику конфиденциальности
+        window.showPolicy = function() {
+            alert('Политика конфиденциальности\n\n' +
+                  'Настоящим я подтверждаю, что:\n' +
+                  '• Я являюсь законным представителем ребёнка\n' +
+                  '• Даю согласие на обработку персональных данных: имени, номера телефона, возраста и пола ребёнка\n' +
+                  '• Данные будут использоваться только для связи по вопросам участия в «Майской площадке»\n' +
+                  '• Данные не передаются третьим лицам\n' +
+                  '• Согласие действует до письменного отзыва\n\n' +
+                  'В соответствии с Федеральным законом РФ №152-ФЗ «О персональных данных».');
+        };
         
         window.selectGender = (v) => { answers.gender = v; renderQuestion(); };
         window.selectAge = (v) => { if(v>=6 && v<=16) { answers.age = v; renderQuestion(); } else showMessage('Возраст от 6 до 16 лет'); };
@@ -246,6 +294,15 @@
         
         window.showResult = async function() {
             if (!canProceed()) { showMessage('Ответьте на все вопросы'); return; }
+            
+            // Проверка согласия на последнем шаге
+            if (!consentGiven) {
+                const errorDiv = document.getElementById('consentError');
+                if (errorDiv) errorDiv.classList.add('show');
+                showMessage('Необходимо дать согласие на обработку персональных данных');
+                return;
+            }
+            
             const score = calculateTotalScore();
             const btn = document.querySelector('.nav-btn.next');
             const orig = btn.innerHTML;
@@ -279,7 +336,8 @@
                 physical_readiness: answers.physicalReadiness,
                 total_score: score,
                 phone: phone,
-                date: new Date().toLocaleString('ru-RU')
+                date: new Date().toLocaleString('ru-RU'),
+                consent_given: true // Отметка о согласии
             };
             
             // Отправка на ваш сервер Render
@@ -301,7 +359,11 @@
                     <div class="result-icon"><i class="fas fa-check-circle"></i></div>
                     <div class="result-title">Ура! Наша программа отлично подойдёт для вашего ребёнка 🎉</div>
                     <div class="result-role"><i class="fas fa-sun"></i> Майская площадка</div>
-                    <div class="result-text">Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей майской программе!<br><br>Наш менеджер свяжется с вами по номеру ${phone}.</div>
+                    <div class="result-text">
+                        Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей майской программе!<br><br>
+                        Наш менеджер свяжется с вами по номеру ${phone}.<br><br>
+                        <small style="color: #888;">Вы дали согласие на обработку персональных данных. Вы можете отозвать его в любое время, написав нам.</small>
+                    </div>
                     <div class="result-buttons">
                         <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Наш Telegram</a>
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> Наш VK</a>
@@ -314,6 +376,7 @@
         
         window.resetQuiz = function() {
             currentStep = 0;
+            consentGiven = false;
             answers = { gender: null, age: null, techInterest: null, socialPreference: null, competitiveSpirit: null, physicalReadiness: null };
             document.querySelector('.progress-container').style.display = 'block';
             renderQuestion();
