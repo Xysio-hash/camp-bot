@@ -87,6 +87,10 @@
         .consent-error { color: #f44336; font-size: 0.8em; margin-top: 8px; margin-left: 30px; display: none; }
         .consent-error.show { display: block; }
         
+        /* Стили для сообщения о телефоне */
+        .phone-warning { background: #fff3e0; border-radius: 10px; padding: 12px; margin: 10px 0; border-left: 4px solid #ff9800; font-size: 0.85em; color: #e65100; display: flex; align-items: center; gap: 10px; }
+        .phone-warning i { font-size: 1.2em; }
+        
         .footer { text-align: center; padding: 12px; background: #f8f9fa; color: #666; font-size: 0.75em; border-top: 1px solid #e0e0e0; }
         .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -132,7 +136,8 @@
         const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
         
         let currentStep = 0;
-        let consentGiven = false; // Флаг согласия на обработку данных
+        let consentGiven = false;
+        let phoneNumber = null;
         let answers = {
             gender: null, age: null, techInterest: null,
             socialPreference: null, competitiveSpirit: null, physicalReadiness: null
@@ -201,7 +206,7 @@
             const block = document.getElementById('messageBlock');
             document.getElementById('messageText').innerText = msg;
             block.classList.add('show');
-            setTimeout(() => block.classList.remove('show'), 3000);
+            setTimeout(() => block.classList.remove('show'), 4000);
         }
         
         function canProceed() {
@@ -240,14 +245,18 @@
                 html += `</div>`;
             }
             
-            // Если это последний вопрос — добавляем блок согласия перед кнопками
+            // Если это последний вопрос — добавляем блок согласия и предупреждение о телефоне
             if (currentStep === questions.length - 1) {
                 html += `
+                    <div class="phone-warning">
+                        <i class="fas fa-phone-alt"></i>
+                        <span><strong>Внимание!</strong> Для отправки результата и обратной связи потребуется ваш номер телефона. Без номера телефона мы не сможем с вами связаться.</span>
+                    </div>
                     <div class="consent-block">
                         <label class="consent-checkbox">
                             <input type="checkbox" id="consentCheckbox" onchange="toggleConsent(this.checked)">
                             <span>
-                                Я даю согласие на обработку персональных данных в соответствии с 
+                                Я даю согласие на обработку персональных данных (включая номер телефона) в соответствии с 
                                 <a href="#" onclick="showPolicy(); return false;">Политикой конфиденциальности</a> 
                                 и Федеральным законом №152-ФЗ «О персональных данных».
                             </span>
@@ -267,14 +276,12 @@
             updateProgress();
         }
         
-        // Функция для переключения согласия
         window.toggleConsent = function(checked) {
             consentGiven = checked;
             const errorDiv = document.getElementById('consentError');
             if (errorDiv) errorDiv.classList.remove('show');
         };
         
-        // Показать политику конфиденциальности
         window.showPolicy = function() {
             alert('Политика конфиденциальности\n\n' +
                   'Настоящим я подтверждаю, что:\n' +
@@ -295,7 +302,7 @@
         window.showResult = async function() {
             if (!canProceed()) { showMessage('Ответьте на все вопросы'); return; }
             
-            // Проверка согласия на последнем шаге
+            // Проверка согласия
             if (!consentGiven) {
                 const errorDiv = document.getElementById('consentError');
                 if (errorDiv) errorDiv.classList.add('show');
@@ -306,24 +313,49 @@
             const score = calculateTotalScore();
             const btn = document.querySelector('.nav-btn.next');
             const orig = btn.innerHTML;
-            btn.innerHTML = '<span class="loading"></span> Отправка...';
+            btn.innerHTML = '<span class="loading"></span> Получение номера...';
             btn.disabled = true;
             
-            let phone = 'Не указан';
+            let phone = null;
             let userName = 'Гость';
             let userId = '';
             
+            // Получаем данные пользователя VK
             try {
                 const user = await vkBridge.send('VKWebAppGetUserInfo');
                 userName = `${user.first_name} ${user.last_name}`;
                 userId = user.id;
-                try { 
-                    const p = await vkBridge.send('VKWebAppGetPhoneNumber'); 
-                    if (p && p.phone_number) phone = p.phone_number; 
-                } catch(e) { console.log('Нет доступа к номеру телефона'); }
             } catch (e) {
-                console.log('Не удалось получить данные VK, возможно запущено вне VK');
+                console.log('Не удалось получить данные VK');
             }
+            
+            // Запрашиваем номер телефона ОБЯЗАТЕЛЬНО
+            btn.innerHTML = '<span class="loading"></span> Запрос номера телефона...';
+            
+            try {
+                const p = await vkBridge.send('VKWebAppGetPhoneNumber');
+                if (p && p.phone_number) {
+                    phone = p.phone_number;
+                } else {
+                    throw new Error('Номер телефона не получен');
+                }
+            } catch (e) {
+                console.log('Ошибка получения номера:', e);
+                btn.innerHTML = orig;
+                btn.disabled = false;
+                showMessage('Для связи с вами необходимо предоставить номер телефона. Пожалуйста, разрешите доступ.');
+                return;
+            }
+            
+            // Проверяем, что телефон действительно получен
+            if (!phone) {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+                showMessage('Не удалось получить номер телефона. Пожалуйста, разрешите доступ к номеру телефона для обратной связи.');
+                return;
+            }
+            
+            btn.innerHTML = '<span class="loading"></span> Отправка данных...';
             
             const payload = {
                 vk_id: userId,
@@ -337,10 +369,10 @@
                 total_score: score,
                 phone: phone,
                 date: new Date().toLocaleString('ru-RU'),
-                consent_given: true // Отметка о согласии
+                consent_given: true
             };
             
-            // Отправка на ваш сервер Render
+            // Отправка на сервер
             try {
                 const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
                     method: 'POST',
@@ -353,6 +385,9 @@
                 console.log('⚠️ Ошибка отправки на сервер:', e); 
             }
             
+            // Маскируем телефон для отображения (показываем только последние 4 цифры)
+            const maskedPhone = phone.replace(/(\+\d{1,3})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 *** *** $4 $5');
+            
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
@@ -361,7 +396,8 @@
                     <div class="result-role"><i class="fas fa-sun"></i> Майская площадка</div>
                     <div class="result-text">
                         Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей майской программе!<br><br>
-                        Наш менеджер свяжется с вами по номеру ${phone}.<br><br>
+                        <i class="fas fa-phone" style="color: #667eea;"></i> 
+                        Наш менеджер свяжется с вами по номеру <strong>${maskedPhone}</strong> в ближайшее время.<br><br>
                         <small style="color: #888;">Вы дали согласие на обработку персональных данных. Вы можете отозвать его в любое время, написав нам.</small>
                     </div>
                     <div class="result-buttons">
@@ -377,6 +413,7 @@
         window.resetQuiz = function() {
             currentStep = 0;
             consentGiven = false;
+            phoneNumber = null;
             answers = { gender: null, age: null, techInterest: null, socialPreference: null, competitiveSpirit: null, physicalReadiness: null };
             document.querySelector('.progress-container').style.display = 'block';
             renderQuestion();
