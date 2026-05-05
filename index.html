@@ -19,7 +19,6 @@
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .logo-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; z-index: 2; border: 3px solid rgba(255,255,255,0.5); backdrop-filter: blur(5px); overflow: hidden; }
         .logo-circle i { font-size: 32px; color: white; }
-        .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
         .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .header .subtitle { font-size: 0.85em; opacity: 0.95; }
         .server-status { position: absolute; top: 12px; right: 15px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.7em; backdrop-filter: blur(5px); z-index: 10; }
@@ -108,7 +107,6 @@
             <div class="subtitle">Смоленская изба • Дневное пребывание 7–13 лет</div>
         </div>
         
-        <!-- Информационный блок о лагере -->
         <div style="padding: 20px 25px 0 25px;">
             <div class="info-block">
                 <h3><i class="fas fa-calendar-alt"></i> Смены 2026</h3>
@@ -253,7 +251,6 @@
                 html += `</div>`;
             }
             
-            // Блок согласия на последнем шаге
             if (currentStep === questions.length - 1) {
                 html += `
                     <div class="consent-block">
@@ -290,11 +287,11 @@
             alert('Политика конфиденциальности\n\n' +
                   'Настоящим я подтверждаю, что:\n' +
                   '• Я являюсь законным представителем ребёнка\n' +
-                  '• Даю согласие на обработку персональных данных: имени, номера телефона, возраста и пола ребёнка\n' +
-                  '• Данные будут использоваться только для связи по вопросам участия в летнем лагере «Смоленская изба»\n' +
+                  '• Даю согласие на обработку данных: имени, телефона, возраста и пола ребёнка\n' +
+                  '• Данные используются только для связи по вопросам летнего лагеря «Смоленская изба»\n' +
                   '• Данные не передаются третьим лицам\n' +
                   '• Согласие действует до письменного отзыва\n\n' +
-                  'В соответствии с Федеральным законом РФ №152-ФЗ «О персональных данных».');
+                  '152-ФЗ «О персональных данных» РФ.');
         };
         
         window.selectGender = (v) => { answers.gender = v; renderQuestion(); };
@@ -309,7 +306,7 @@
             if (!consentGiven) {
                 const errorDiv = document.getElementById('consentError');
                 if (errorDiv) errorDiv.classList.add('show');
-                showMessage('Необходимо дать согласие на обработку персональных данных');
+                showMessage('Необходимо дать согласие на обработку данных');
                 return;
             }
             
@@ -332,7 +329,7 @@
                     if (p && p.phone_number) phone = p.phone_number; 
                 } catch(e) { console.log('Нет доступа к номеру телефона'); }
             } catch (e) {
-                console.log('Не удалось получить данные VK, возможно запущено вне VK');
+                console.log('Не удалось получить данные VK');
             }
             
             const payload = {
@@ -350,6 +347,7 @@
                 consent_given: true
             };
             
+            // Отправка на сервер → в Google Таблицу
             try {
                 const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
                     method: 'POST',
@@ -357,34 +355,32 @@
                     body: JSON.stringify(payload)
                 });
                 const result = await response.json();
-                console.log('✅ Сервер ответил:', result);
+                console.log('✅ Данные ушли в таблицу:', result);
             } catch(e) { 
-                console.log('⚠️ Ошибка отправки на сервер:', e); 
+                console.log('⚠️ Ошибка отправки:', e); 
             }
             
-            // Рекомендация смены на основе баллов
             let shiftRecommendation = '';
             if (score >= 90) shiftRecommendation = '🥇 Рекомендуем 1 смену (22.06–03.07) — самая насыщенная программа!';
-            else if (score >= 83) shiftRecommendation = '🥈 Рекомендуем 2 смену (06.07–17.07) — отличный баланс активностей!';
-            else shiftRecommendation = '🥉 Рекомендуем 3 смену (20.07–31.07) — спокойная и творческая атмосфера!';
+            else if (score >= 83) shiftRecommendation = '🥈 Рекомендуем 2 смену (06.07–17.07) — отличный баланс!';
+            else shiftRecommendation = '🥉 Рекомендуем 3 смену (20.07–31.07) — творческая атмосфера!';
             
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
                     <div class="result-icon"><i class="fas fa-sun"></i></div>
-                    <div class="result-title">🎉 Поздравляем! Летний лагерь «Смоленская изба» ждёт вашего ребёнка!</div>
+                    <div class="result-title">🎉 Летний лагерь «Смоленская изба» ждёт вас!</div>
                     <div class="result-role"><i class="fas fa-campground"></i> Лето 2026 • ${answers.age} лет</div>
                     <div class="result-text">
-                        Вы набрали <strong>${score} баллов из 100</strong> — мы подберём идеальную программу!<br><br>
                         <strong>${shiftRecommendation}</strong><br><br>
-                        <i class="fas fa-phone"></i> Мы получили ваш номер (${phone}) и перезвоним в ближайшее время!<br>
-                        Или звоните прямо сейчас: <strong>8 (910) 712-28-38</strong><br><br>
-                        <small style="color: #888;">📍 ул. Большая Советская, 24 • ⏰ 9:00–18:00 (пн–пт)</small>
+                        <i class="fas fa-phone"></i> Перезвоним на номер ${phone}<br>
+                        Или звоните: <strong>8 (910) 712-28-38</strong><br><br>
+                        <small>📍 ул. Большая Советская, 24 • ⏰ 9:00–18:00</small>
                     </div>
                     <div class="result-buttons">
-                        <a href="tel:+79107122838" class="result-btn call"><i class="fas fa-phone-alt"></i> Позвонить нам</a>
-                        <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Наш Telegram</a>
-                        <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> Наш VK</a>
+                        <a href="tel:+79107122838" class="result-btn call"><i class="fas fa-phone-alt"></i> Позвонить</a>
+                        <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Telegram</a>
+                        <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> ВКонтакте</a>
                         <button class="result-btn reset" onclick="resetQuiz()"><i class="fas fa-redo"></i> Пройти заново</button>
                     </div>
                 </div>`;
