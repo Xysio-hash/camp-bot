@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Майская площадка | Подбор программы</title>
+    <title>Летний лагерь | Смоленская изба</title>
     
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -11,17 +11,17 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        body { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .container { width: 100%; max-width: 550px; background: rgba(255,255,255,0.98); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
         .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .logo-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; z-index: 2; border: 3px solid rgba(255,255,255,0.5); backdrop-filter: blur(5px); overflow: hidden; }
         .logo-circle i { font-size: 32px; color: white; }
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
         .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .header .subtitle { font-size: 0.9em; opacity: 0.95; }
+        .header .subtitle { font-size: 0.85em; opacity: 0.95; }
         .server-status { position: absolute; top: 12px; right: 15px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.7em; backdrop-filter: blur(5px); z-index: 10; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffd700; animation: pulse 1.5s infinite; }
         .status-dot.active { background: #4caf50; animation: none; }
@@ -29,68 +29,65 @@
         .content { padding: 25px; }
         .progress-container { margin-bottom: 25px; }
         .progress-bar { height: 8px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
-        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #667eea; font-weight:500; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
+        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #ff7e5f; font-weight: 500; }
         .question-card { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         .question-title { font-size: 1.2em; font-weight: 600; color: #333; margin-bottom: 20px; text-align: center; }
-        .question-title i { color: #667eea; margin-right: 10px; }
+        .question-title i { color: #ff7e5f; margin-right: 10px; }
         .age-selector { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
         .age-btn { width: 55px; height: 55px; border-radius: 50%; background: white; border: 2px solid #e0e0e0; font-size: 1.1em; font-weight: 600; color: #333; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-        .age-btn:hover { border-color: #667eea; transform: scale(1.05); }
-        .age-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
+        .age-btn:hover { border-color: #ff7e5f; transform: scale(1.05); }
+        .age-btn.selected { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); border-color: transparent; color: white; }
         .gender-group { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
         .gender-option { flex: 1; max-width: 150px; }
         .gender-option input { display: none; }
         .gender-option label { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px; background: white; border: 2px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-        .gender-option input:checked + label { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
+        .gender-option input:checked + label { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); border-color: transparent; color: white; }
         .gender-option input:checked + label i { color: white; }
-        .gender-option label i { font-size: 2.2em; color: #667eea; }
+        .gender-option label i { font-size: 2.2em; color: #ff7e5f; }
         .gender-option label span { font-size: 0.95em; font-weight: 500; }
         .options-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
         .option-btn { padding: 14px 18px; background: white; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 12px; }
-        .option-btn:hover { border-color: #667eea; transform: translateX(5px); }
-        .option-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; color: white; }
+        .option-btn:hover { border-color: #ff7e5f; transform: translateX(5px); }
+        .option-btn.selected { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); border-color: transparent; color: white; }
         .option-btn.selected i { color: white; }
-        .option-btn i { font-size: 1.1em; color: #667eea; width: 24px; }
+        .option-btn i { font-size: 1.1em; color: #ff7e5f; width: 24px; }
         .nav-buttons { display: flex; gap: 15px; margin-top: 25px; }
         .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .nav-btn.prev { background: #f0f0f0; color: #666; }
-        .nav-btn.next { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
+        .nav-btn.next { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); color: white; }
+        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,126,95,0.3); }
         .nav-btn.prev:hover { background: #e0e0e0; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .result-card { text-align: center; animation: fadeIn 0.5s ease; }
-        .result-score { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; box-shadow: 0 10px 25px rgba(102,126,234,0.3); }
+        .result-score { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; box-shadow: 0 10px 25px rgba(255,126,95,0.3); }
         .result-score .points { font-size: 2.5em; font-weight: 800; }
         .result-score .max { font-size: 0.9em; opacity: 0.9; }
         .result-icon { font-size: 3.5em; color: #4caf50; margin-bottom: 15px; }
         .result-title { font-size: 1.5em; font-weight: 700; color: #333; margin-bottom: 10px; }
-        .result-role { font-size: 1.2em; color: #667eea; font-weight: 600; margin-bottom: 15px; background: #f0f0ff; display: inline-block; padding: 6px 20px; border-radius: 50px; }
+        .result-role { font-size: 1.2em; color: #ff7e5f; font-weight: 600; margin-bottom: 15px; background: #fff5f2; display: inline-block; padding: 6px 20px; border-radius: 50px; }
         .result-text { font-size: 1em; color: #666; line-height: 1.5; margin-bottom: 25px; }
         .result-buttons { display: flex; flex-direction: column; gap: 12px; }
         .result-btn { padding: 14px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
         .result-btn.telegram { background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%); color: white; }
         .result-btn.vk { background: linear-gradient(135deg, #4a76a8 0%, #42648d 100%); color: white; }
+        .result-btn.call { background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; }
         .result-btn.reset { background: #f0f0f0; color: #666; }
         .result-btn:hover { transform: translateY(-2px); }
         .message-block { background: white; border-radius: 20px; padding: 12px 15px; margin: 0 25px 15px 25px; display: none; border-left: 4px solid #ff9800; font-size: 0.9em; }
         .message-block.show { display: block; }
-        
-        /* Стили для блока согласия */
-        .consent-block { background: #f8f9ff; border-radius: 15px; padding: 15px; margin: 15px 0; border: 1px solid #e0e0e0; }
+        .consent-block { background: #fff5f2; border-radius: 15px; padding: 15px; margin: 15px 0; border: 1px solid #e0e0e0; }
         .consent-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
-        .consent-checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: #667eea; cursor: pointer; }
+        .consent-checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: #ff7e5f; cursor: pointer; }
         .consent-checkbox span { font-size: 0.85em; color: #555; line-height: 1.4; }
-        .consent-checkbox a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .consent-checkbox a { color: #ff7e5f; text-decoration: none; font-weight: 500; }
         .consent-checkbox a:hover { text-decoration: underline; }
         .consent-error { color: #f44336; font-size: 0.8em; margin-top: 8px; margin-left: 30px; display: none; }
         .consent-error.show { display: block; }
-        
-        /* Стили для сообщения о телефоне */
-        .phone-warning { background: #fff3e0; border-radius: 10px; padding: 12px; margin: 10px 0; border-left: 4px solid #ff9800; font-size: 0.85em; color: #e65100; display: flex; align-items: center; gap: 10px; }
-        .phone-warning i { font-size: 1.2em; }
-        
+        .info-block { background: #fff5f2; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px dashed #ff7e5f; }
+        .info-block h3 { color: #ff7e5f; margin-bottom: 10px; font-size: 1em; }
+        .info-block p { font-size: 0.85em; color: #666; line-height: 1.6; margin: 5px 0; }
         .footer { text-align: center; padding: 12px; background: #f8f9fa; color: #666; font-size: 0.75em; border-top: 1px solid #e0e0e0; }
         .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -105,10 +102,23 @@
                 <span id="statusText">Готово</span>
             </div>
             <div class="logo-circle">
-                <i class="fas fa-sun"></i>
+                <i class="fas fa-campground"></i>
             </div>
-            <h1>Майская площадка</h1>
-            <div class="subtitle">Найди свою программу</div>
+            <h1>Летний лагерь ☀️</h1>
+            <div class="subtitle">Смоленская изба • Дневное пребывание 7–13 лет</div>
+        </div>
+        
+        <!-- Информационный блок о лагере -->
+        <div style="padding: 20px 25px 0 25px;">
+            <div class="info-block">
+                <h3><i class="fas fa-calendar-alt"></i> Смены 2026</h3>
+                <p><strong>1 смена:</strong> 22.06 – 03.07</p>
+                <p><strong>2 смена:</strong> 06.07 – 17.07</p>
+                <p><strong>3 смена:</strong> 20.07 – 31.07</p>
+                <p style="margin-top:8px;"><i class="fas fa-clock"></i> 9:00–18:00 (пн–пт)</p>
+                <p><i class="fas fa-map-marker-alt"></i> ул. Большая Советская, 24</p>
+                <p><strong>18 000 ₽</strong> / смена • <strong>9 000 ₽</strong> / 5 дней</p>
+            </div>
         </div>
         
         <div id="messageBlock" class="message-block">
@@ -125,29 +135,27 @@
         </div>
         
         <div class="footer">
-            <p><i class="fas fa-heart" style="color: #ff6b6b;"></i> Проведи майские каникулы с пользой и интересом!</p>
+            <p><i class="fas fa-phone"></i> 8 (910) 712-28-38 &nbsp;|&nbsp; <i class="fas fa-heart" style="color: #ff6b6b;"></i> Подарите ребёнку незабываемое лето!</p>
         </div>
     </div>
 
     <script>
         vkBridge.send('VKWebAppInit');
         
-        // URL вашего сервера на Render
         const SERVER_URL = 'https://camp-bot-euhn.onrender.com';
         
         let currentStep = 0;
         let consentGiven = false;
-        let phoneNumber = null;
         let answers = {
-            gender: null, age: null, techInterest: null,
-            socialPreference: null, competitiveSpirit: null, physicalReadiness: null
+            gender: null, age: null, creativity: null,
+            socialPreference: null, activityLevel: null, independence: null
         };
         
         const pointsMap = {
-            techInterest: { very: 22, somewhat: 19, little: 16, not: 14 },
+            creativity: { very: 22, somewhat: 19, little: 16, not: 14 },
             socialPreference: { team: 22, friends: 19, mixed: 17, alone: 14 },
-            competitiveSpirit: { very: 22, sometimes: 19, rarely: 16, never: 14 },
-            physicalReadiness: { excellent: 22, good: 19, average: 16, low: 14 }
+            activityLevel: { very: 22, somewhat: 19, little: 16, not: 14 },
+            independence: { very: 22, somewhat: 19, little: 16, not: 14 }
         };
         
         const BASE_SCORE = 76;
@@ -157,39 +165,39 @@
                 { value: 'boy', label: 'Мальчик', icon: 'fas fa-mars' },
                 { value: 'girl', label: 'Девочка', icon: 'fas fa-venus' }
             ]},
-            { id: 'age', title: 'Возраст ребёнка', type: 'age', min: 6, max: 16 },
-            { id: 'techInterest', title: 'Увлекается ли ваш ребёнок новыми технологиями?', type: 'options', options: [
-                { value: 'very', label: 'Да, очень! Гаджеты и компьютеры — это его страсть', icon: 'fas fa-laptop-code', points: 22 },
-                { value: 'somewhat', label: 'Интересуется, но не фанат', icon: 'fas fa-microchip', points: 19 },
-                { value: 'little', label: 'Не особо, предпочитает другое', icon: 'fas fa-palette', points: 16 },
-                { value: 'not', label: 'Совсем не интересуется техникой', icon: 'fas fa-book', points: 14 }
+            { id: 'age', title: 'Возраст ребёнка', type: 'age', min: 7, max: 13 },
+            { id: 'creativity', title: 'Любит ли ребёнок творчество и рукоделие?', type: 'options', options: [
+                { value: 'very', label: 'Обожает! Рисует, лепит, мастерит постоянно', icon: 'fas fa-paint-brush', points: 22 },
+                { value: 'somewhat', label: 'Любит, но не фанат', icon: 'fas fa-palette', points: 19 },
+                { value: 'little', label: 'Иногда, если настроение есть', icon: 'fas fa-pencil-alt', points: 16 },
+                { value: 'not', label: 'Предпочитает другое', icon: 'fas fa-futbol', points: 14 }
             ]},
-            { id: 'socialPreference', title: 'Как ребёнок любит проводить время с друзьями?', type: 'options', options: [
-                { value: 'team', label: 'В команде, вместе достигать цели', icon: 'fas fa-users', points: 22 },
-                { value: 'friends', label: 'С 1-2 близкими друзьями', icon: 'fas fa-user-friends', points: 19 },
-                { value: 'mixed', label: 'И так, и так — по настроению', icon: 'fas fa-balance-scale', points: 17 },
-                { value: 'alone', label: 'Предпочитает заниматься один', icon: 'fas fa-user', points: 14 }
+            { id: 'socialPreference', title: 'Как ребёнок чувствует себя в новом коллективе?', type: 'options', options: [
+                { value: 'team', label: 'Легко знакомится, любит быть в центре внимания', icon: 'fas fa-users', points: 22 },
+                { value: 'friends', label: 'Находит пару друзей и держится с ними', icon: 'fas fa-user-friends', points: 19 },
+                { value: 'mixed', label: 'Присматривается, потом вливается', icon: 'fas fa-smile', points: 17 },
+                { value: 'alone', label: 'Стесняется, предпочитает быть один', icon: 'fas fa-user', points: 14 }
             ]},
-            { id: 'competitiveSpirit', title: 'Любит ли ребёнок побеждать и соревноваться?', type: 'options', options: [
-                { value: 'very', label: 'Обожает соревнования! Победа — главное', icon: 'fas fa-trophy', points: 22 },
-                { value: 'sometimes', label: 'Нравится, но не расстраивается при проигрыше', icon: 'fas fa-smile', points: 19 },
-                { value: 'rarely', label: 'Не любит соревноваться, предпочитает просто играть', icon: 'fas fa-gamepad', points: 16 },
-                { value: 'never', label: 'Избегает соревнований, стрессует', icon: 'fas fa-peace', points: 14 }
+            { id: 'activityLevel', title: 'Насколько ребёнок активный и подвижный?', type: 'options', options: [
+                { value: 'very', label: 'Энерджайзер! Бегает, прыгает без остановки', icon: 'fas fa-running', points: 22 },
+                { value: 'somewhat', label: 'Любит подвижные игры, но и отдыхает', icon: 'fas fa-bicycle', points: 19 },
+                { value: 'little', label: 'Предпочитает спокойные игры', icon: 'fas fa-book', points: 16 },
+                { value: 'not', label: 'Очень спокойный, любит тихие занятия', icon: 'fas fa-chess', points: 14 }
             ]},
-            { id: 'physicalReadiness', title: 'Как у ребёнка с физической подготовкой?', type: 'options', options: [
-                { value: 'excellent', label: 'Отлично! Спортсмен, любит активные игры', icon: 'fas fa-running', points: 22 },
-                { value: 'good', label: 'Хорошо, регулярно занимается физкультурой', icon: 'fas fa-bicycle', points: 19 },
-                { value: 'average', label: 'Средне, иногда играет в подвижные игры', icon: 'fas fa-walking', points: 16 },
-                { value: 'low', label: 'Слабо, предпочитает спокойные занятия', icon: 'fas fa-bed', points: 14 }
+            { id: 'independence', title: 'Насколько ребёнок самостоятелен?', type: 'options', options: [
+                { value: 'very', label: 'Полностью самостоятельный, помогает другим', icon: 'fas fa-star', points: 22 },
+                { value: 'somewhat', label: 'В основном справляется сам', icon: 'fas fa-thumbs-up', points: 19 },
+                { value: 'little', label: 'Иногда нужна помощь взрослых', icon: 'fas fa-hand-holding-heart', points: 16 },
+                { value: 'not', label: 'Требует постоянного внимания', icon: 'fas fa-baby', points: 14 }
             ]}
         ];
         
         function calculateTotalScore() {
             let additional = 0;
-            if (answers.techInterest) additional += pointsMap.techInterest[answers.techInterest];
+            if (answers.creativity) additional += pointsMap.creativity[answers.creativity];
             if (answers.socialPreference) additional += pointsMap.socialPreference[answers.socialPreference];
-            if (answers.competitiveSpirit) additional += pointsMap.competitiveSpirit[answers.competitiveSpirit];
-            if (answers.physicalReadiness) additional += pointsMap.physicalReadiness[answers.physicalReadiness];
+            if (answers.activityLevel) additional += pointsMap.activityLevel[answers.activityLevel];
+            if (answers.independence) additional += pointsMap.independence[answers.independence];
             const minAdd = 56, maxAdd = 88;
             let normalized = 0;
             if (additional >= minAdd && maxAdd > minAdd) normalized = ((additional - minAdd) / (maxAdd - minAdd)) * 22;
@@ -206,7 +214,7 @@
             const block = document.getElementById('messageBlock');
             document.getElementById('messageText').innerText = msg;
             block.classList.add('show');
-            setTimeout(() => block.classList.remove('show'), 4000);
+            setTimeout(() => block.classList.remove('show'), 3000);
         }
         
         function canProceed() {
@@ -245,18 +253,14 @@
                 html += `</div>`;
             }
             
-            // Если это последний вопрос — добавляем блок согласия и предупреждение о телефоне
+            // Блок согласия на последнем шаге
             if (currentStep === questions.length - 1) {
                 html += `
-                    <div class="phone-warning">
-                        <i class="fas fa-phone-alt"></i>
-                        <span><strong>Внимание!</strong> Для отправки результата и обратной связи потребуется ваш номер телефона. Без номера телефона мы не сможем с вами связаться.</span>
-                    </div>
                     <div class="consent-block">
                         <label class="consent-checkbox">
                             <input type="checkbox" id="consentCheckbox" onchange="toggleConsent(this.checked)">
                             <span>
-                                Я даю согласие на обработку персональных данных (включая номер телефона) в соответствии с 
+                                Я даю согласие на обработку персональных данных в соответствии с 
                                 <a href="#" onclick="showPolicy(); return false;">Политикой конфиденциальности</a> 
                                 и Федеральным законом №152-ФЗ «О персональных данных».
                             </span>
@@ -287,14 +291,14 @@
                   'Настоящим я подтверждаю, что:\n' +
                   '• Я являюсь законным представителем ребёнка\n' +
                   '• Даю согласие на обработку персональных данных: имени, номера телефона, возраста и пола ребёнка\n' +
-                  '• Данные будут использоваться только для связи по вопросам участия в «Майской площадке»\n' +
+                  '• Данные будут использоваться только для связи по вопросам участия в летнем лагере «Смоленская изба»\n' +
                   '• Данные не передаются третьим лицам\n' +
                   '• Согласие действует до письменного отзыва\n\n' +
                   'В соответствии с Федеральным законом РФ №152-ФЗ «О персональных данных».');
         };
         
         window.selectGender = (v) => { answers.gender = v; renderQuestion(); };
-        window.selectAge = (v) => { if(v>=6 && v<=16) { answers.age = v; renderQuestion(); } else showMessage('Возраст от 6 до 16 лет'); };
+        window.selectAge = (v) => { if(v>=7 && v<=13) { answers.age = v; renderQuestion(); } else showMessage('Возраст от 7 до 13 лет'); };
         window.selectOption = (id, v) => { answers[id] = v; renderQuestion(); };
         window.nextQuestion = () => { if (canProceed() && currentStep < questions.length-1) { currentStep++; renderQuestion(); } else if (!canProceed()) showMessage('Ответьте на вопрос'); };
         window.prevQuestion = () => { if (currentStep > 0) { currentStep--; renderQuestion(); } };
@@ -302,7 +306,6 @@
         window.showResult = async function() {
             if (!canProceed()) { showMessage('Ответьте на все вопросы'); return; }
             
-            // Проверка согласия
             if (!consentGiven) {
                 const errorDiv = document.getElementById('consentError');
                 if (errorDiv) errorDiv.classList.add('show');
@@ -313,66 +316,40 @@
             const score = calculateTotalScore();
             const btn = document.querySelector('.nav-btn.next');
             const orig = btn.innerHTML;
-            btn.innerHTML = '<span class="loading"></span> Получение номера...';
+            btn.innerHTML = '<span class="loading"></span> Отправка...';
             btn.disabled = true;
             
-            let phone = null;
+            let phone = 'Не указан';
             let userName = 'Гость';
             let userId = '';
             
-            // Получаем данные пользователя VK
             try {
                 const user = await vkBridge.send('VKWebAppGetUserInfo');
                 userName = `${user.first_name} ${user.last_name}`;
                 userId = user.id;
+                try { 
+                    const p = await vkBridge.send('VKWebAppGetPhoneNumber'); 
+                    if (p && p.phone_number) phone = p.phone_number; 
+                } catch(e) { console.log('Нет доступа к номеру телефона'); }
             } catch (e) {
-                console.log('Не удалось получить данные VK');
+                console.log('Не удалось получить данные VK, возможно запущено вне VK');
             }
-            
-            // Запрашиваем номер телефона ОБЯЗАТЕЛЬНО
-            btn.innerHTML = '<span class="loading"></span> Запрос номера телефона...';
-            
-            try {
-                const p = await vkBridge.send('VKWebAppGetPhoneNumber');
-                if (p && p.phone_number) {
-                    phone = p.phone_number;
-                } else {
-                    throw new Error('Номер телефона не получен');
-                }
-            } catch (e) {
-                console.log('Ошибка получения номера:', e);
-                btn.innerHTML = orig;
-                btn.disabled = false;
-                showMessage('Для связи с вами необходимо предоставить номер телефона. Пожалуйста, разрешите доступ.');
-                return;
-            }
-            
-            // Проверяем, что телефон действительно получен
-            if (!phone) {
-                btn.innerHTML = orig;
-                btn.disabled = false;
-                showMessage('Не удалось получить номер телефона. Пожалуйста, разрешите доступ к номеру телефона для обратной связи.');
-                return;
-            }
-            
-            btn.innerHTML = '<span class="loading"></span> Отправка данных...';
             
             const payload = {
                 vk_id: userId,
                 parent_name: userName,
                 child_gender: answers.gender === 'boy' ? 'Мальчик' : 'Девочка',
                 child_age: answers.age,
-                tech_interest: answers.techInterest,
+                creativity: answers.creativity,
                 social_preference: answers.socialPreference,
-                competitive_spirit: answers.competitiveSpirit,
-                physical_readiness: answers.physicalReadiness,
+                activity_level: answers.activityLevel,
+                independence: answers.independence,
                 total_score: score,
                 phone: phone,
                 date: new Date().toLocaleString('ru-RU'),
                 consent_given: true
             };
             
-            // Отправка на сервер
             try {
                 const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
                     method: 'POST',
@@ -385,22 +362,27 @@
                 console.log('⚠️ Ошибка отправки на сервер:', e); 
             }
             
-            // Маскируем телефон для отображения (показываем только последние 4 цифры)
-            const maskedPhone = phone.replace(/(\+\d{1,3})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 *** *** $4 $5');
+            // Рекомендация смены на основе баллов
+            let shiftRecommendation = '';
+            if (score >= 90) shiftRecommendation = '🥇 Рекомендуем 1 смену (22.06–03.07) — самая насыщенная программа!';
+            else if (score >= 83) shiftRecommendation = '🥈 Рекомендуем 2 смену (06.07–17.07) — отличный баланс активностей!';
+            else shiftRecommendation = '🥉 Рекомендуем 3 смену (20.07–31.07) — спокойная и творческая атмосфера!';
             
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
-                    <div class="result-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="result-title">Ура! Наша программа отлично подойдёт для вашего ребёнка 🎉</div>
-                    <div class="result-role"><i class="fas fa-sun"></i> Майская площадка</div>
+                    <div class="result-icon"><i class="fas fa-sun"></i></div>
+                    <div class="result-title">🎉 Поздравляем! Летний лагерь «Смоленская изба» ждёт вашего ребёнка!</div>
+                    <div class="result-role"><i class="fas fa-campground"></i> Лето 2026 • ${answers.age} лет</div>
                     <div class="result-text">
-                        Вы набрали <strong>${score} баллов из 100</strong> и полностью подходите для участия в нашей майской программе!<br><br>
-                        <i class="fas fa-phone" style="color: #667eea;"></i> 
-                        Наш менеджер свяжется с вами по номеру <strong>${maskedPhone}</strong> в ближайшее время.<br><br>
-                        <small style="color: #888;">Вы дали согласие на обработку персональных данных. Вы можете отозвать его в любое время, написав нам.</small>
+                        Вы набрали <strong>${score} баллов из 100</strong> — мы подберём идеальную программу!<br><br>
+                        <strong>${shiftRecommendation}</strong><br><br>
+                        <i class="fas fa-phone"></i> Мы получили ваш номер (${phone}) и перезвоним в ближайшее время!<br>
+                        Или звоните прямо сейчас: <strong>8 (910) 712-28-38</strong><br><br>
+                        <small style="color: #888;">📍 ул. Большая Советская, 24 • ⏰ 9:00–18:00 (пн–пт)</small>
                     </div>
                     <div class="result-buttons">
+                        <a href="tel:+79107122838" class="result-btn call"><i class="fas fa-phone-alt"></i> Позвонить нам</a>
                         <a href="https://t.me/ligacyberrazved" target="_blank" class="result-btn telegram"><i class="fab fa-telegram-plane"></i> Наш Telegram</a>
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> Наш VK</a>
                         <button class="result-btn reset" onclick="resetQuiz()"><i class="fas fa-redo"></i> Пройти заново</button>
@@ -413,8 +395,7 @@
         window.resetQuiz = function() {
             currentStep = 0;
             consentGiven = false;
-            phoneNumber = null;
-            answers = { gender: null, age: null, techInterest: null, socialPreference: null, competitiveSpirit: null, physicalReadiness: null };
+            answers = { gender: null, age: null, creativity: null, socialPreference: null, activityLevel: null, independence: null };
             document.querySelector('.progress-container').style.display = 'block';
             renderQuestion();
         };
